@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PVSEQ4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a4252eb1-0df9-49d8-8778-26a98fcce9f7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="regfr" class="java.lang.String"/>
+	<parameter name="regan" class="java.lang.String"/>
+	<parameter name="depfr" class="java.lang.String"/>
+	<parameter name="depan" class="java.lang.String"/>
+	<parameter name="etsfr" class="java.lang.String"/>
+	<parameter name="etsan" class="java.lang.String"/>
+	<parameter name="bp" class="java.lang.String"/>
+	<parameter name="tel" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="Pcodeclasse" class="java.lang.String"/>
+	<parameter name="seuil" class="java.math.BigDecimal"/>
+	<parameter name="ANNEESCO" class="java.lang.String"/>
+	<parameter name="chemin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select concat(l.nom,' ',l.prenom) as nomeleve,l.matriculeeleve,l.sexe,to_char(l.datenaiss,'YYYY'),
+        sm1.moyenne as moyenne1,sm1.rang,ca.moyenne as moyenne_classe,ca.tauxreussite
+from Classes c
+inner join listedeseleves l on l.codeclasse=c.codeclasse
+inner join seq4moyennesrangsdeseleves sm1 on sm1.matriculeeleve=l.matriculeeleve
+inner join calculnotesdesclasses ca on ca.codeclasse=c.codeclasse and ca.periode='SEQ4'
+where c.codeclasse=$P{Pcodeclasse}
+order by l.nom]]>
+	</queryString>
+	<field name="nomeleve" class="java.lang.String"/>
+	<field name="matriculeeleve" class="java.lang.String"/>
+	<field name="sexe" class="java.lang.String"/>
+	<field name="to_char" class="java.lang.String"/>
+	<field name="moyenne1" class="java.math.BigDecimal"/>
+	<field name="rang" class="java.lang.String"/>
+	<field name="moyenne_classe" class="java.math.BigDecimal"/>
+	<field name="tauxreussite" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="115" splitType="Stretch">
+			<textField>
+				<reportElement x="302" y="39" width="242" height="12" uuid="3f2b71e3-181c-4ba5-b9c2-8acdc3a78380"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{depan}+" DIVISIONAL DELEGATION"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="33" width="213" height="12" uuid="4d52ccaf-ba3f-46d5-9a6d-98084948b617"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DELEGATION REGIONALE "+$P{regfr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="31" width="154" height="12" uuid="9d3a55b4-bb9a-4ab7-bed7-1f150ecaf327"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{regan}+" REGIONAL DELEGATION"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="17" y="53" width="194" height="17" uuid="15aa6a02-849c-4b80-bf8a-7400b68d53fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etsfr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="396" y="0" width="130" height="12" uuid="b2133b24-f7f5-4a76-8712-ba769d7096dc"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPUBLIC OF CAMEROON]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="314" y="51" width="235" height="17" uuid="9bdc715d-2e9e-478f-8010-75b8696095dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etsan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="429" y="10" width="94" height="12" uuid="b7bba4ed-f220-4397-85f1-5cda3ecf0f54"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[  Peace-Work-Fatherland]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="71" width="133" height="11" uuid="0eceb7e0-ce3f-4972-a83a-0285cfd0469a"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BP: "+$P{bp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="22" width="201" height="12" uuid="7ccc17b0-c4b8-4713-b8ff-cf78c3c6c70c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[MINISTERE DES ENSEIGNEMENTS SECONDAIRES  ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="35" y="84" width="236" height="9" uuid="3451439f-a5d4-470c-8e50-10caf8ef8029"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: "+$P{email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="61" y="10" width="74" height="12" uuid="e050b416-230d-4910-935b-35442d650c0b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ Paix-Travail-Patrie ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="70" width="115" height="11" uuid="044f8bfc-9e7a-4615-a0f0-3c6d76ce1cef"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PO BOX: "+$P{bp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="145" y="71" width="154" height="12" uuid="be3479e7-29f3-4bba-9607-2a7234d84813"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEL: "+$P{tel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="388" y="22" width="156" height="12" uuid="29cec9d4-5a2a-4e54-b56b-2131bb5557c9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[MINISTRY OF SECONDARY EDUCATION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="44" width="213" height="12" uuid="62d8c586-465c-4cb7-b9bf-5f26475f81ac"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DELEGATION DEPARTEMENTALE "+$P{depfr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="38" y="-2" width="150" height="12" uuid="ce7a8d1b-3038-409d-b916-e4988c41f8bb"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPUBLIQUE DU CAMEROUN  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="79" y="93" width="373" height="17" backcolor="#CCCCCC" uuid="1c4e32b9-1589-4e9f-9e24-58d00b39511a"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font fontName="SansSerif" size="12" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[PROCES VERBAL DU CONSEIL DE LA QUATRIEME SEQUENCE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="351" y="79" width="201" height="13" uuid="d259517d-e092-4e51-a61a-f1089c6ff567"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ANNEE SCOLAIRE "+$P{ANNEESCO}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="271" y="12" width="74" height="48" uuid="08c0e95b-8326-45bb-ade6-f42d45a4ab33"/>
+				<imageExpression><![CDATA[$P{chemin}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement x="38" y="27" width="206" height="20" uuid="255d061f-b5d6-490b-bc94-5fe98375a302"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Noms et Prénoms]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="27" width="55" height="20" uuid="0ed4450b-d566-41a5-bd0a-7ca73884b557"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[N° Mle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="27" width="27" height="20" uuid="499e428f-fa14-40fb-9c64-24468bc0020f"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Sexe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="27" width="48" height="20" uuid="c7a80f72-d529-4faf-8046-8c8a43e52387"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Année]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="27" width="40" height="20" uuid="4921eb76-7f7f-46ec-bce1-2a0e72371a32"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[M.SEQ4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="27" width="38" height="20" uuid="8bbc146c-fc84-43ce-99d1-36efcf7ac14a"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Rang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="27" width="38" height="20" uuid="d96fb4e3-c8d7-4ec1-9e7e-85f5bf49e779"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="27" width="50" height="20" uuid="cc19c2ca-29d5-4d8b-b7b8-960ba79a63b5"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Conduite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="27" width="53" height="20" uuid="9edf87c8-5544-40d4-aa00-7b24badc15c8"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Décision]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="5" width="267" height="20" uuid="a3bdb2eb-8dc4-44b9-9936-b8a1507632bf"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Moyenne Générale de la classe/G.Class AVG: "+$F{moyenne_classe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="7" width="138" height="20" uuid="cc6b1d74-ae6c-415f-8bcf-89983ea3c8b5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Taux de réussite: "+$F{tauxreussite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="6" width="126" height="20" uuid="9386a0f0-be15-478a-9201-a48f4d6aa8e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Classe/Class: "+$P{Pcodeclasse}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="38" height="20" uuid="63319e77-fd83-436c-9c92-f09ecfb2cd4d"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}.intValue()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="244" y="0" width="55" height="20" uuid="6d686b39-9977-4836-8b39-d209b862689e"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{matriculeeleve}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="299" y="0" width="27" height="20" uuid="890e8e8c-4b44-4964-8b9a-5d6f55fa1000"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sexe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="326" y="0" width="48" height="20" uuid="b9879152-5b49-4c80-82a3-3375019493c6"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{to_char}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="0" width="40" height="20" uuid="08dee72c-ecd2-4f50-beab-56dd1ab60179"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{moyenne1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="0" width="38" height="20" uuid="a7f6797a-13c1-4207-97be-1b1eddd3005b"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{rang}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="452" y="0" width="50" height="20" uuid="727d243b-0b4b-4188-974a-f03dffa00624"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="38" y="0" width="206" height="20" uuid="9a62061f-8938-4cac-ab28-1511d0dd3f0b"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" "+$F{nomeleve}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="502" y="0" width="53" height="20" uuid="a11513e2-6d4a-4e86-bae7-6cb3e70eb502"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{moyenne1} >=$P{seuil} ? "Admis" : "Echoué"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="35" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="314" y="21" width="241" height="20" uuid="a622628e-3c96-4ccd-a245-c51d731b542c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fait à ................................., Le..........................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="41" width="130" height="20" uuid="4d54b2c3-0953-402d-97ef-1144ff1fe6fb"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Le Président du Jury]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="16" width="178" height="25" uuid="8eada917-f552-4b93-9c6d-b036ac2ac100"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ Les Menbres du Jury]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="260" height="15" uuid="1c6d6b1e-1211-4297-a73d-4c9ebb2d44e4"/>
+				<text><![CDATA[1)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="61" width="260" height="15" uuid="3f527494-435d-4e46-aac7-23f02666dc59"/>
+				<text><![CDATA[2)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="56" width="260" height="1" uuid="bcf17291-a5e0-480d-a6dc-e9b1a973c40b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="9" y="75" width="260" height="1" uuid="ab125331-07bc-4b5d-9eee-c2db612e9ae4"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

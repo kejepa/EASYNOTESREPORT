@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <center>
+                <h:panelGrid columns="3" style=" align-self: center; margin-bottom:10px" cellpadding="5" columnClasses="label, value">  
+                    <f:facet name="header">
+                        <p:separator/>
+                        <h:outputText style="font-size: 11pt; color: green; align-content: center" value="IMPRESSION DES PROCES VERBEAUX"/>
+                        <p:separator/>
+                    </f:facet>
+                    <h:panelGrid bgcolor="black" columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff; align-content: center" value="SEQUENCES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="basic" value="#{pvController.seq}" filter="true" filterMatchMode="contains">
+                            <p:ajax update="pan_user1"/>
+                            <f:selectItem itemLabel="SEQ 1" itemValue="SEQ1" />
+                            <f:selectItem itemLabel="SEQ 2" itemValue="SEQ2" />
+                            <f:selectItem itemLabel="SEQ 3" itemValue="SEQ3" />
+                            <f:selectItem itemLabel="SEQ 4" itemValue="SEQ4" />
+                            <f:selectItem itemLabel="SEQ 5" itemValue="SEQ5" />
+                            <f:selectItem itemLabel="SEQ 6" itemValue="SEQ6" />
+                            <f:selectItem itemLabel="TRIM 1" itemValue="TRIM1" />
+                            <f:selectItem itemLabel="TRIM 2" itemValue="TRIM2" />
+                            <f:selectItem itemLabel="TRIM 3" itemValue="TRIM3" />
+                            <f:selectItem itemLabel="ANNUEL" itemValue="ANN" />
+                        </p:selectOneListbox>
+                    </h:panelGrid>
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: red; align-content: center" value="Moyenne Min Pour être Admis"/>
+                        </f:facet>
+                        <p:selectOneMenu required="ture" editable="true" label="dgh" maxlength="2" value="#{pvController.seuil}" filter="true" filterMatchMode="contains">
+                            <p:ajax update="pan_user1"/>
+                            <f:selectItem itemLabel="9.75" itemValue="9.75" />
+                            <f:selectItem itemLabel="9.50" itemValue="9.50" />
+                            <f:selectItem  itemLabel="9.25" itemValue="9.25" />
+                            <f:selectItem itemLabel="9.00" itemValue="9.00" />
+                            <f:selectItem itemLabel="8.50" itemValue="8.50" />
+                            <f:selectItem itemLabel="8.00" itemValue="8.00" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <h:panelGrid columns="1" bgcolor="black">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff;; align-content: center" value="CLASSES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="classes" value="#{pvController.classe}" onclick="PF('widget_user').show()" converter="classeAffectEnseigConverter" filter="true" filterMatchMode="contains">
+                            <p:ajax update="pan_user1"/>
+                            <p:ajax listener="#{pvController.verifierSeqClasseMatiere()}"/>
+                            <f:selectItems value="#{affectationEnseigClassController.listeClasses()}"/>
+                        </p:selectOneListbox> 
+                    </h:panelGrid>
+                </h:panelGrid> 
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <p:panel id="pan_user1" style="text-align: justify;">
+                        <h1><h:outputText value="Opérations sur:" style="color: green"/></h1>
+                        <h1><h:outputText  value="#{pvController.msg}" rendered="#{pvController.msgTest}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="1"> 
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Seq:"/>
+                                <h:outputLabel value="#{pvController.seq}"/>
+                                <h:outputLabel value="Classe:"/>
+                                <h:outputLabel value="#{pvController.classe}"/>
+                                <h:outputLabel value="Moyenne min Pour Admis:"/>
+                                <h:outputLabel value="#{pvController.seuil}"/>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" action="#{pvController.faireDisparaitre_le_sms_sur_pdialog()}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                    <h:commandButton rendered="#{!pvController.msgTest}" immediate="true" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{pvController.impressionGeneral()}"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+            </center>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="List"/></h1>
+                <p:dataTable value="#{affectationEnseigClassController.affectEnseigList}"
+                             selectionMode="single" 
+                             selection="#{affectationEnseigClassController.affecEnseigClass}"
+                             rowKey="#{item.ensgclamatPK}" 
+                             id="table" 
+                             scrollable="true"
+                             scrollHeight="250"
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             var="item"
+                             rowIndexVar="rowindex">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column headerText="N°">
+                        <h:outputText value="#{rowindex+1}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Matriculeenseignant"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matriculeenseignant}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.ensgclamatPK.codeclasse}">
+                        <f:facet name="header">
+                            <h:outputText value="Codeclasse"/>
+                        </f:facet>
+                        <h:outputText value="#{item.ensgclamatPK.codeclasse}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.ensgclamatPK.codematiere}"> 
+                        <f:facet name="header">
+                            <h:outputText value="Codematiere"/>
+                        </f:facet>
+                        <h:outputText value="#{item.ensgclamatPK.codematiere}"/>
+                    </p:column>
+                </p:dataTable>
+
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{affectationEnseigClassController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{affectationEnseigClassController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{affectationEnseigClassController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{affectationEnseigClassController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{affectationEnseigClassController.affectationEnseiClasses()}" icon="ui-icon-refresh"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red; align-content: center" value="#{lm.Affectation_Enseig_Classe}"/>
+                    </f:facet> 
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.Matiere_Classe_Ensei_Existe_Deja}" rendered="#{affectationEnseigClassController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2"> 
+                            <p:outputLabel value="Codeclasse:" for="codeclasse" />
+                            <p:selectOneMenu required="true" converter="classeAffectEnseigConverter" id="codeclasse" value="#{affectationEnseigClassController.affecEnseigClass.classes}" >
+                                <f:selectItem itemLabel="Click" itemValue="" noSelectionOption="true"/>
+                                <p:ajax listener="#{affectMatController.listeMatieres()}" update="codematiere"/>
+                                <f:selectItems value="#{affectationEnseigClassController.listeClasses()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Codematiere:" for="codematiere" />
+                            <p:selectOneMenu required="true" converter="matiereAffectEnseigConverter" id="codematiere" value="#{affectationEnseigClassController.affecEnseigClass.matieres}" >
+                                <f:selectItem itemLabel="Click" itemValue="" noSelectionOption="true"/>
+                                <p:ajax listener="#{affectationEnseigClassController.listePersonnels()}" update="matriculeenseignant"/>
+                                <f:selectItems value="#{affectationEnseigClassController.listeMatieres()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Matriculeenseignant:" for="matriculeenseignant" />                    
+                            <p:selectOneMenu required="true" id="matriculeenseignant" value="#{affectationEnseigClassController.affecEnseigClass.matriculeenseignant}">      
+                                <f:selectItem itemLabel="Click" itemValue=" " />
+                                <f:selectItems value="#{affectationEnseigClassController.listePersonnels()}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()" action="#{affectationEnseigClassController.affectationEnseiClasses()}"/>
+                                <p:commandButton rendered="#{affectationEnseigClassController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{affectationEnseigClassController.persistEnseiAffectClasse()}" update="pan_user"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

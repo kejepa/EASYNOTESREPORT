@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <center>
+                <h:panelGrid columns="4" style=" align-self: center; margin-bottom:10px" cellpadding="5" columnClasses="label, value">  
+                    <f:facet name="header">
+                        <p:separator/>
+                        <h:outputText style="font-size: 11pt; color: green; align-content: center" value="ENVOI DES SMS PAR PERIODE"/>
+                        <p:separator/>
+                    </f:facet>
+                    <h:panelGrid bgcolor="black" columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff; align-content: center" value="SEQUENCES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="basic" value="#{smsController.seq}" filter="true" filterMatchMode="contains">
+                            <p:ajax update="pan_user"/>
+                            <f:selectItem itemLabel="SEQ 1" itemValue="SEQ1" />
+                            <f:selectItem itemLabel="SEQ 2" itemValue="SEQ2" />
+                            <f:selectItem itemLabel="SEQ 3" itemValue="SEQ3" />
+                            <f:selectItem itemLabel="SEQ 4" itemValue="SEQ4" />
+                            <f:selectItem itemLabel="SEQ 5" itemValue="SEQ5" />
+                            <f:selectItem itemLabel="SEQ 6" itemValue="SEQ6" />
+                            <f:selectItem itemLabel="TRIM 1" itemValue="TRIM1" />
+                            <f:selectItem itemLabel="TRIM 2" itemValue="TRIM2" />
+                            <f:selectItem itemLabel="TRIM 3" itemValue="TRIM3" />
+                            <f:selectItem itemLabel="ANNUEL" itemValue="ANN" />
+                        </p:selectOneListbox>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" bgcolor="black">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff;; align-content: center" value="CLASSES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="classes" value="#{smsController.classe}" converter="classeAffectEnseigConverter" filter="true" filterMatchMode="contains">
+                            <p:ajax listener="#{smsController.listeEleveParClasse()}" update="panTypeImpression,eleve,pan_user"/>
+                            <f:selectItems value="#{affectationEnseigClassController.listeClasses()}"/>
+                        </p:selectOneListbox> 
+                    </h:panelGrid>
+                    <p:panelGrid id="panTypeImpression" columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: red; align-content: center" value="TYPE ENVOI"/>
+                        </f:facet>
+                        <p:outputPanel id="customPanel" style="margin-bottom:10px">
+                            <p:selectOneRadio id="customRadio" value="#{smsController.typeEnvoi}" layout="custom">
+                                <f:selectItem itemLabel="Tous Les Elèves" itemValue="Tous Les Elèves" />
+                                <f:selectItem itemLabel="Un Elève" itemValue="Un Elève" />
+                                <f:selectItem itemLabel="En Série" itemValue="En Série" />
+                                <p:ajax listener="#{smsController.updateAjax()}"  update="eleve,labeleve,serie,labpan,customPanel,panTypeImpression,pan_user"/>
+                            </p:selectOneRadio>
+
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:radioButton id="opt1" for="customRadio" itemIndex="0"/>
+                                <h:outputLabel for="opt1" value="Tous Les Elèves" />
+
+                                <p:radioButton id="opt2" for="customRadio" itemIndex="1"/> 
+                                <h:outputLabel id="labopt2" for="opt2" value="Un Elève" />
+
+                                <h:outputLabel id="labeleve" rendered="#{smsController.labeleve}" for="eleve"/>
+                                <p:selectOneMenu id="eleve" rendered="#{smsController.champEleve}" value="#{smsController.nomeleve}">
+                                    <f:selectItem itemLabel="Click" itemValue="Click" />
+                                    <f:selectItems value="#{smsController.listeEleveParClasse()}" />
+                                    <p:ajax listener="#{smsController.matriculeRegex()}"/>
+                                </p:selectOneMenu>
+                                <p:radioButton id="opt3" for="customRadio" itemIndex="2" />
+                                <h:outputLabel id="labopt3" for="opt3" value="En Série" />
+
+                                <h:outputLabel id="labpan" rendered="#{smsController.labpanel}" for="serie"/>
+                                <h:panelGrid id="serie" rendered="#{smsController.serie}" columns="2">
+                                    <h:outputLabel  id="labde" value="De:" for="de"/>
+                                    <p:selectOneMenu id="de" value="#{smsController.nomeleve}">
+                                        <f:selectItem itemLabel="Click" itemValue="Click" />
+                                        <f:selectItems value="#{smsController.listeEleveParClasse()}" />
+                                        <p:ajax listener="#{smsController.matriculeRegex()}"/>
+                                    </p:selectOneMenu>
+
+                                    <h:outputLabel id="laba" value="A" for="a"/>                            
+                                    <p:selectOneMenu id="a" value="#{smsController.nomeleveA}">
+                                        <f:selectItem itemLabel="Click" itemValue="Click" />
+                                        <f:selectItems value="#{smsController.listeEleveParClasse()}" />
+                                        <p:ajax listener="#{smsController.matriculeRegex()}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </p:panelGrid> 
+                    <p:panelGrid id="pan_user" columns="2">
+                        <h:outputLabel value="Seq:" for="seq"/>
+                        <h:outputLabel id="seq" value="#{smsController.seq}"/>
+                        <h:outputLabel value="Classe:" for="class"/>
+                        <h:outputLabel id="class" value="#{smsController.classe}"/>
+                        <h:outputLabel value="Type Envoi" for="typeimp"/>
+                        <h:outputLabel id="typeimp" value="#{smsController.typeEnvoi}"/>
+                    </p:panelGrid>
+                </h:panelGrid> 
+                <h:panelGrid style="margin: auto;" columns="4">
+                    <p:commandButton value="Saisir SMS Pour Moyenne" action="#{smsController.faireDisparaitre_le_sms_sur_pdialog()}" oncomplete="PF('widget_user').show()" update="form,:form:dialog_user"/>
+                    <p:commandButton value="Saisir SMS Info" action="#{smsController.faireDisparaitre_le_sms_sur_pdialogsimplesms()}" oncomplete="PF('widget_user2').show()" update="form,:form:dialog_user2"/>
+                    <p:commandButton value="Saisir Simple SMS" action="#{smsController.faireDisparaitre_le_sms_sur_pdialog()}" oncomplete="PF('widget_user').show()" update="form,:form:dialog_user"/>
+                    <p:commandButton value="Consulter Crédit" action="#{smsController.faireDisparaitre_le_sms_sur_pdialogsimplesms()}" oncomplete="PF('widget_user2').show()" update="form,:form:dialog_user2"/>
+                </h:panelGrid>
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <p:panel id="pan_user1" style="text-align: justify;">
+                        <h1><h:outputText value="Opérations d'envoi des sms" style="color: green"/></h1>
+                        <h1><h:outputText  value="#{smsController.msg}" rendered="#{smsController.msgTest}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="1"> 
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Emetteur:" for="sender"/>
+                                <h:inputText size="42" id="sender" maxlength="11" value="#{smsController.sender}"/>
+                                <h:outputLabel value="Exemple:" for="msgfinal"/>
+                                <h:inputTextarea rows="5" cols="40" disabled="true" id="msgfinal" value="#{smsController.message}"/>
+                                <h:outputLabel value="Msg avant Nom" for="msgAvn"/>
+                                <h:inputTextarea rows="1" cols="40"  id="msgAvn" value="#{smsController.msgAvn}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsg()}" update="msgfinal" />
+                                </h:inputTextarea>
+                                <h:outputLabel value="Msg avant code Classe" for="msgAvcc"/>
+                                <h:inputTextarea rows="1" cols="40" id="msgAvcc" value="#{smsController.msgAvcc}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsg()}" update="msgfinal" />
+                                </h:inputTextarea>
+                                <h:outputLabel value="Msg avant Moy:" for="msgAvm"/>
+                                <h:inputTextarea rows="1" cols="40" id="msgAvm" value="#{smsController.msgAvm}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsg()}" update="msgfinal" />
+                                </h:inputTextarea>
+                                <h:outputLabel value="Msg après Moy:" for="msgApm"/>
+                                <h:inputTextarea rows="1" cols="40" id="msgApm" value="#{smsController.msgApm}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsg()}" update="msgfinal" />
+                                </h:inputTextarea>
+                                <h:outputLabel value="Msg après Rang:" for="msgAr"/>
+                                <h:inputTextarea rows="1" cols="40" id="msgAr" value="#{smsController.msgApr}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsg()}" update="msgfinal" /> 
+                                </h:inputTextarea>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" action="#{smsController.faireDisparaitre_le_sms_sur_pdialog()}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                    <p:commandButton rendered="#{!smsController.msgTest}" process="pan_user1" immediate="true" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{smsController.evoismsMoyenne()}" oncomplete="PF('widget_user').show()"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+                <p:dialog id="dialog_user2" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user2" closable="false" resizable="false" showHeader="true">
+                    <p:panel id="pan_user2" style="text-align: justify;">
+                        <h1><h:outputText value="Opérations d'envoi des sms simples" style="color: green"/></h1>
+                        <h1><h:outputText  value="#{smsController.msg}" rendered="#{smsController.msgTest}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="1"> 
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Emetteur:" for="senders"/>
+                                <h:inputText size="42" id="senders" maxlength="11" value="#{smsController.sender}"/>
+                                <h:outputLabel value="Exemple:" for="msgfinals"/>
+                                <h:inputTextarea rows="5" cols="40" disabled="true" id="msgfinals" value="#{smsController.message}"/>
+                                <h:outputLabel value="Msg avant Nom" for="msgAvns"/>
+                                <h:inputTextarea rows="1" cols="40"  id="msgAvns" value="#{smsController.msgAvn}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsgsimple()}" update="msgfinals" />
+                                </h:inputTextarea>
+                                <h:outputLabel value="Msg avant code Classe" for="msgAvccs"/>
+                                <h:inputTextarea rows="1" cols="40" id="msgAvccs" value="#{smsController.msgAvcc}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsgsimple()}" update="msgfinals" />
+                                </h:inputTextarea>
+                                <h:outputLabel value="Msg après code Classe:" for="msgAvms"/>
+                                <h:inputTextarea rows="1" cols="40" id="msgAvms" value="#{smsController.msgAvm}">
+                                    <p:ajax event="keyup" listener="#{smsController.afficheMsgsimple()}" update="msgfinals" />
+                                </h:inputTextarea>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" action="#{smsController.faireDisparaitre_le_sms_sur_pdialogsimplesms()}" immediate="true" oncomplete="PF('widget_user2').hide()"/>
+                                    <p:commandButton rendered="#{!smsController.msgTest}" process="pan_user2" immediate="true" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{smsController.evoismsSimple()}" oncomplete="PF('widget_user2').show()"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+            </center>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

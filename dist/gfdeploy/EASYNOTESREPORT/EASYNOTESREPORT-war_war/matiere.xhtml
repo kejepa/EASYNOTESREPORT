@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="List"/></h1>
+                <p:dataTable value="#{matiereController.matiereList}" 
+                             selectionMode="single" 
+                             selection="#{matiereController.matiere}"
+                             rowKey="#{item.codematiere}" 
+                             id="table" 
+                             scrollable="true"
+                             scrollHeight="300"
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             var="item">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column filterBy="#{item.codematiere}">
+                        <f:facet name="header">
+                            <h:outputText value="Codematiere"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codematiere}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.nommat}">
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nommat}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.codespecialite}">
+                        <f:facet name="header">
+                            <h:outputText value="Spécialité"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codespecialite}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.type}">
+                        <f:facet name="header">
+                            <h:outputText value="Type"/>
+                        </f:facet>
+                        <h:outputText value="#{item.type}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{matiereController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{matiereController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{matiereController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{matiereController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{matiereController.matieres()}" icon="ui-icon-refresh"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red; align-content: center" value="#{lm.Mouvement_Sur} #{lm.Matiere}"/>
+                    </f:facet>
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.Classe_Existe_Deja}" rendered="#{matiereController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Codematiere:" for="codematiere" />
+                            <p:inputText id="codematiere" value="#{matiereController.matiere.codematiere}" title="Codematiere" required="true" maxlength="6" requiredMessage="The Codematiere field is required."/>
+                            <p:outputLabel value="Nom:" for="nom" />
+                            <p:inputText id="nom" required="true" value="#{matiereController.matiere.nommat}" title="Nom" />
+                            <p:outputLabel value="Spécialité:" for="codespecialite" />
+                            <p:selectOneMenu converter="specialiteConverter" required="true" id="codespecialite" value="#{matiereController.matiere.codespecialite}" title="codespecialite">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{specialiteController.listespecialites()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Type:" for="type" />
+                            <p:selectOneMenu required="true" id="type" value="#{matiereController.matiere.type}" title="Type">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="#{lm.Litteraire}" itemValue="Litteraire" />
+                                <f:selectItem itemLabel="#{lm.Scientifique}" itemValue="Scientifique" />
+                                <f:selectItem itemLabel="#{lm.Informatique}" itemValue="Technique/Complémentaires" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Priorite:" for="priorite" />
+                            <p:selectOneMenu required="true" id="priorite" value="#{matiereController.matiere.priorite}" title="Priorite">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="#{lm.Haut}" itemValue="1" />
+                                <f:selectItem itemLabel="#{lm.Moyen}" itemValue="2" />
+                                <f:selectItem itemLabel="#{lm.Bas}" itemValue="3"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                <p:commandButton rendered="#{matiereController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{matiereController.persistMatieres()}" update="pan_user"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

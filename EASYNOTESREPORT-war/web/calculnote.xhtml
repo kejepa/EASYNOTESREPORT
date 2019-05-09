@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <center>
+                <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">              
+                    <f:facet name="header">
+                        <p:separator/>
+                        <h:outputText style="font-size: 11pt; color: green; align-content: center" value="CALCUL DE TOUTES LES NOTES"/>
+                        <p:separator/>
+                    </f:facet>
+                    <h:panelGrid bgcolor="black" columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff; align-content: center" value="SEQUENCES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="basic" value="#{managedNoteSeqController.seq}" filter="true" filterMatchMode="contains">
+                            <p:ajax update="pan_user"/>
+                            <p:ajax listener="#{managedNoteSeqController.calculTauxAnnuel()}" update="panMoyannuelle"/>
+                            <f:selectItem itemLabel="SEQ 1" itemValue="SEQ1" />
+                            <f:selectItem itemLabel="SEQ 2" itemValue="SEQ2" />
+                            <f:selectItem itemLabel="SEQ 3" itemValue="SEQ3" />
+                            <f:selectItem itemLabel="SEQ 4" itemValue="SEQ4" />
+                            <f:selectItem itemLabel="SEQ 5" itemValue="SEQ5" />
+                            <f:selectItem itemLabel="SEQ 6" itemValue="SEQ6" />
+                            <f:selectItem itemLabel="TRIM 1" itemValue="TRIM1" />
+                            <f:selectItem itemLabel="TRIM 2" itemValue="TRIM2" />
+                            <f:selectItem itemLabel="TRIM 3" itemValue="TRIM3" />
+                            <f:selectItem itemLabel="ANN" itemValue="ANN" />
+                        </p:selectOneListbox>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" bgcolor="black">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff;; align-content: center" value="CLASSES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="classes" value="#{managedNoteSeqController.classe}" converter="classeAffectEnseigConverter" filter="true" filterMatchMode="contains">
+                            <p:ajax listener="#{managedNoteSeqController.sumcoefficient()}" update="pan_user"/>
+                            <f:selectItems value="#{affectationEnseigClassController.listeClasses()}"/>
+                        </p:selectOneListbox>
+                    </h:panelGrid>
+                    <p:panelGrid id="panMoyannuelle" columns="1">
+                        <p:panelGrid columns="1">
+                            <f:facet name="header">
+                                <h:outputText style="font-size: 11pt; color: red; align-content: center" value="Non Classé si total Coef inf à:"/>
+                            </f:facet>
+                            <p:selectOneMenu required="ture" editable="true" label="dgh" maxlength="2" value="#{managedNoteSeqController.seuil}" filter="true" filterMatchMode="contains">
+                                <p:ajax update="pan_user"/>
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                                <f:selectItem itemLabel="11" itemValue="11" />
+                                <f:selectItem  itemLabel="12" itemValue="12" />
+                                <f:selectItem itemLabel="13" itemValue="13" />
+                                <f:selectItem itemLabel="14" itemValue="14" />
+                                <f:selectItem itemLabel="15" itemValue="15" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:panelGrid rendered="#{managedNoteSeqController.testSeq}" columns="1">
+                            <f:facet name="header">
+                                <h:outputText style="font-size: 11pt; color: red; align-content: center" value="Passer avec Moyenne sup à:"/>
+                            </f:facet>
+                            <p:selectOneMenu required="ture" editable="true" label="dgh" maxlength="2" value="#{managedNoteSeqController.moyPourPasser}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItem itemLabel="9.75" itemValue="9.75" />
+                                <f:selectItem itemLabel="9.50" itemValue="9.50" />
+                                <f:selectItem  itemLabel="9.25" itemValue="9.25" />
+                                <f:selectItem itemLabel="9.00" itemValue="9.00" />
+                                <f:selectItem itemLabel="8.75" itemValue="8.75" />
+                                <f:selectItem itemLabel="8.50" itemValue="8.50" />
+                                <f:selectItem itemLabel="8.25" itemValue="8.25" />
+                                <f:selectItem itemLabel="8.00" itemValue="8.00" />
+                                <f:selectItem  itemLabel="8.75" itemValue="8.75" />
+                                <f:selectItem itemLabel="8.50" itemValue="8.50" />
+                                <f:selectItem itemLabel="8.25" itemValue="8.25" />
+                                <f:selectItem itemLabel="7.00" itemValue="7.00" />
+                                <f:selectItem itemLabel="7.75" itemValue="7.75" />
+                                <f:selectItem itemLabel="7.50" itemValue="7.50" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panelGrid>
+                    <p:panelGrid id="pan_user" columns="2">
+                        <h:outputLabel value="Seq:" for="seq"/>
+                        <h:outputLabel id="seq" value="#{managedNoteSeqController.seq}"/>
+                        <h:outputLabel value="Classe:" for="class"/>
+                        <h:outputLabel id="class" value="#{managedNoteSeqController.classe}"/>
+                        <h:outputLabel value="Somme des Coefficients:" for="coef"/>
+                        <h:outputLabel id="coef" value="#{managedNoteSeqController.sumcoefficient()}"/>
+                        <h:outputLabel value="Seuil:" for="seuil"/>
+                        <h:outputLabel id="seuil" value="#{managedNoteSeqController.seuil}"/>
+                    </p:panelGrid>
+                </h:panelGrid> 
+                <h:panelGrid style="margin: auto;" columns="1">
+                    <p:commandButton value="#{lm.CalculAuto}" action="#{calculController.faireDisparaitre_le_sms_sur_pdialog()}" oncomplete="PF('widget_user').show()" update="form,:form:dialog_user"/>
+                </h:panelGrid>
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <p:panel id="pan_user1" style="text-align: justify;">
+                        <h1><h:outputText value="Voulez-vous effectuer les calculs sur:" style="color: green"/></h1>
+                        <h1><h:outputText  value="#{calculController.msg}" rendered="#{calculController.msgTest}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2"> 
+                            <p:panelGrid columns="2"> 
+                                <h:outputLabel value="Seq:" for="seqd"/>
+                                <h:outputLabel id="seqd" value="#{managedNoteSeqController.seq}"/>
+                                <h:outputLabel value="Classe:" for="classd"/> 
+                                <h:outputLabel id="classd" value="#{managedNoteSeqController.classe}"/>
+                                <h:outputLabel value="Somme des Coefficients:" for="coefd"/>
+                                <h:outputLabel id="coefd" value="#{managedNoteSeqController.sumcoefficient()}"/>
+                                <h:outputLabel value="Seuil:" for="seuild"/>
+                                <h:outputLabel id="seuild" value="#{managedNoteSeqController.seuil}"/>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" action="#{calculController.faireDisparaitre_le_sms_sur_pdialog()}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                    <p:commandButton rendered="#{!calculController.msgTest}" process="pan_user1" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{calculController.calcule_des_moyennes()}"  update="pan_user1"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+            </center>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

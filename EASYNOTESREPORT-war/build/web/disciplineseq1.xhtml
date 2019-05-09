@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">  
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="SEQUENCE:" for="sequ"/>
+                        <h:outputText id="sequ" value="#{disciplineSeqController.seq}"/>
+                        <h:outputLabel value="CLASSE" for="class"/>
+                        <h:outputText id="class" value="#{disciplineSeqController.classe}"/>
+                        <h:outputLabel value="USER:" for="user"/>                           
+                        <h:outputText id="user" value="#{connexionController.nom}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="8">
+                        <h:outputText value="AB:Absences Brutes (en Heures"/>
+                        <h:outputText value="AJ:Absence Justifiées(en Heures)"/>
+                        <h:outputText value="AN:Absence Non Justifiées (Calcul automatique)"/>
+                        <h:outputText id="av" value="AV:Avertissemnets (Calcul automatique)"/>
+                        <h:outputText id="bl" value="BL:Blâmes (Calcul automatique)"/>
+                        <h:outputText id="co" value="CO:CONSIGNES (en Heures)"/>
+                        <h:outputText id="ex" value="EX:EXCLUSIONS (en Jours)"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <h1><h:outputText value="List"/></h1>
+                    <p:growl id="growl" showDetail="true"/>
+                    <p:dataTable selectionMode="single"
+                                 selection="#{disciplineSeqController.disciplineseq1}"
+                                 value="#{disciplineSeqController.discilineseq1List}"
+                                 sortBy="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"
+                                 rowKey="#{item.matriculeeleve}"
+                                 id="table"
+                                 rowIndexVar="rowindex"
+                                 editMode="cell"
+                                 editable="true"
+                                 scrollable="true"
+                                 scrollHeight="220"
+                                 widgetVar="tabdisp" 
+                                 var="item">
+                        <p:ajax event="cellEdit" process="form" listener="#{disciplineSeqController.onCellEdit1}" update="table,:form:growl"/>
+                        <p:column headerText="N°" width="25">
+                            <h:outputText value="#{rowindex+1}"/>
+                        </p:column>
+                        <p:column width="100" filterBy="#{item.matriculeeleve}">
+                            <f:facet name="header">
+                                <h:outputText value="Matricule"/>
+                            </f:facet>
+                            <h:outputText value="#{item.matriculeeleve}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.listedeseleves.nom}">
+                            <f:facet name="header">
+                                <h:outputText value="Nom Prenom"/>
+                            </f:facet>
+                            <h:outputText value="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <f:facet name="header">
+                                <h:outputText value="AB"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.absb}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.absb}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="50">
+                            <f:facet name="header">
+                                <h:outputText value="AJ"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.absj}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{item.absj}" style="width:100%" label="Year"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="50">
+                            <f:facet name="header">
+                                <h:outputText value="CO"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.consigne}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.consigne}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="50">
+                            <f:facet name="header">
+                                <h:outputText value="EX"/>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.exclusion}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.exclusion}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

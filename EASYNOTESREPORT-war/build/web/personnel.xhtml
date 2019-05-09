@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <p:dataTable value="#{personnelController.personnelList}" 
+                             selectionMode="single" 
+                             selection="#{personnelController.personnel}"
+                             rowKey="#{item.matricule}" 
+                             id="table" 
+                             sortBy="#{item.nom}"
+                             widgetVar="TablePers"
+                             scrollable="true"
+                             scrollHeight="250"
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             var="item">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h1><h:outputText value="#{lm.Liste_du_personnel}"/></h1>
+                            <h:outputText value="#{lm.RechercheToutChamp}" />
+                            <p:inputText id="globalFilter" onkeyup="PF('TablePers').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Matricule"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matricule}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Prenom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.prenom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Sexe"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sexe}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Datenaiss"/>
+                        </f:facet>
+                        <h:outputText value="#{item.datenaiss}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Lieunaiss"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lieunaiss}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Adresse"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adresse}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Specialite"/>
+                        </f:facet>
+                        <h:outputText value="#{item.specialite}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Grade"/>
+                        </f:facet>
+                        <h:outputText value="#{item.grade}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Fonction"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fonction}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Photo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.photo}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{personnelController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{personnelController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{personnelController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{eleveController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{personnelController.personnels()}" icon="ui-icon-refresh"/>
+                    <h:commandButton immediate="true" value="#{lm.Imprimer}" action="#{personnelController.imprimer()}"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red" value="#{lm.Mouvement_Sur} #{lm.Personnel}"/>
+                    </f:facet>
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.Personnel_Existe_Deja}" rendered="#{personnelController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Matricule:" for="matricule" />
+                            <p:inputText id="matricule" value="#{personnelController.personnel.matricule}" title="Matricule" required="true" requiredMessage="The Matricule field is required."/>
+                            <p:outputLabel value="Nom:" for="nom" />
+                            <p:inputText required="true" id="nom" value="#{personnelController.personnel.nom}" title="Nom" />
+                            <p:outputLabel value="Prenom:" for="prenom" />
+                            <p:inputText id="prenom" value="#{personnelController.personnel.prenom}" title="Prenom" />
+                            <p:outputLabel value="Sexe:" for="sexe" />
+                            <p:selectOneRadio  id="sexe" value="#{personnelController.personnel.sexe}">
+                                <f:selectItem itemLabel="#{lm.Masculin}" itemValue="M" />
+                                <f:selectItem itemLabel="#{lm.Feminin}" itemValue="F" />
+                            </p:selectOneRadio>
+                            <p:outputLabel value="Datenaiss:" for="datenaiss" />
+                            <p:inputMask id="datenaiss" value="#{personnelController.personnel.datenaiss}" mask="99/99/9999" title="Datenaiss" >
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </p:inputMask>
+                            <p:outputLabel value="Lieunaiss:" for="lieunaiss" />
+                            <p:inputText id="lieunaiss" value="#{personnelController.personnel.lieunaiss}" title="Lieunaiss" />
+                            <p:outputLabel value="Adresse:" for="adresse" />
+                            <p:inputText id="adresse" value="#{personnelController.personnel.adresse}" title="Adresse" />
+                            <p:outputLabel value="Specialite:" for="specialite" />
+                            <p:selectOneMenu required="true" id="specialite" value="#{personnelController.personnel.specialite}" editable="true">
+                                <f:selectItems value="#{specialiteController.listespecialites()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Grade:" for="grade" />
+                            <p:inputText id="grade" value="#{personnelController.personnel.grade}" title="Grade" />
+                            <p:outputLabel value="Fonction:" for="fonction" />
+                            <p:inputText id="fonction" value="#{personnelController.personnel.fonction}" title="Fonction" />
+                            <p:outputLabel value="Photo:" for="photo" />
+                            <p:inputText id="photo" value="#{personnelController.personnel.photo}" title="Photo" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" action="#{personnelController.personnels()}" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                <p:commandButton rendered="#{personnelController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{personnelController.persistPersonnels()}" update="pan_user"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

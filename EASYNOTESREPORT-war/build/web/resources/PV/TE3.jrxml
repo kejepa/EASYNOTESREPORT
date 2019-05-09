@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TE3" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd996993-a3bd-4ebd-999b-c625de43f2fc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Pcodeclasse" class="java.lang.String"/>
+	<parameter name="regfr" class="java.lang.String"/>
+	<parameter name="regan" class="java.lang.String"/>
+	<parameter name="depfr" class="java.lang.String"/>
+	<parameter name="depan" class="java.lang.String"/>
+	<parameter name="etsfr" class="java.lang.String"/>
+	<parameter name="etsan" class="java.lang.String"/>
+	<parameter name="bp" class="java.lang.String"/>
+	<parameter name="tel" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="situation" class="java.lang.String"/>
+	<parameter name="principal" class="java.lang.String"/>
+	<parameter name="ANNEESCO" class="java.lang.String"/>
+	<parameter name="chemin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT l.nom, l.prenom, l.codeclasse,s.moyenne
+from listedeseleves l
+inner join trim3moyennesrangsdeseleves s on s.matriculeeleve=l.matriculeeleve
+where l.codeclasse=$P{Pcodeclasse} and s.moyenne between 14 and 20]]>
+	</queryString>
+	<field name="nom" class="java.lang.String"/>
+	<field name="prenom" class="java.lang.String"/>
+	<field name="codeclasse" class="java.lang.String"/>
+	<field name="moyenne" class="java.math.BigDecimal"/>
+	<group name="eleve" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{nom}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="529" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="13" width="788" height="504" forecolor="#000000" uuid="7600f703-f483-4d60-b133-512536593069"/>
+				<box>
+					<pen lineWidth="10.0" lineStyle="Solid" lineColor="#00CC00"/>
+					<topPen lineWidth="10.0" lineStyle="Solid" lineColor="#00CC00"/>
+					<leftPen lineWidth="10.0" lineStyle="Solid" lineColor="#00CC00"/>
+					<bottomPen lineWidth="10.0" lineStyle="Solid" lineColor="#00CC00"/>
+					<rightPen lineWidth="10.0" lineStyle="Solid" lineColor="#00CC00"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="23" width="768" height="485" forecolor="#000000" uuid="98cb67a1-716a-4694-9587-2f683e68cf6a"/>
+				<box>
+					<pen lineWidth="10.0" lineStyle="Solid" lineColor="#FF0000"/>
+					<topPen lineWidth="10.0" lineStyle="Solid" lineColor="#FF0000"/>
+					<leftPen lineWidth="10.0" lineStyle="Solid" lineColor="#FF0000"/>
+					<bottomPen lineWidth="10.0" lineStyle="Solid" lineColor="#FF0000"/>
+					<rightPen lineWidth="10.0" lineStyle="Solid" lineColor="#FF0000"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="33" width="748" height="465" forecolor="#000000" uuid="ea9ac7be-ebd6-40b1-b0d1-457f38f80506"/>
+				<box>
+					<pen lineWidth="10.0" lineStyle="Solid" lineColor="#FFFF00"/>
+					<topPen lineWidth="10.0" lineStyle="Solid" lineColor="#FFFF00"/>
+					<leftPen lineWidth="10.0" lineStyle="Solid" lineColor="#FFFF00"/>
+					<bottomPen lineWidth="10.0" lineStyle="Solid" lineColor="#FFFF00"/>
+					<rightPen lineWidth="10.0" lineStyle="Solid" lineColor="#FFFF00"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="105" y="153" width="572" height="53" backcolor="#CCCCCC" uuid="f42492c8-6cde-46d5-a720-809002d3ee60"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font fontName="Algerian" size="36" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[TABLEAU D'ENCOURAGEMENT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="614" y="82" width="154" height="12" uuid="1462e9a1-09ad-43aa-8dcc-ca7c815cc653"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{regan}+" REGIONAL DELEGATION"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="174" y="116" width="154" height="12" uuid="c5675619-b158-46da-ad3f-c1bdb0435698"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEL: "+$P{tel}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="46" y="98" width="194" height="17" uuid="9c1a2060-0940-4a9d-aefe-6f93901d2460"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etsfr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="599" y="68" width="156" height="12" uuid="11b5d91c-7f86-4a0e-b418-463ea06de4a8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[MINISTRY OF SECONDARY EDUCATION]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="41" y="129" width="236" height="9" uuid="9b71d3d1-516b-4db2-9b26-a54db04203c3"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: "+$P{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="97" width="242" height="12" uuid="56ae6f4c-726c-4248-8e20-04650e4c9669"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{depan}+" DIVISIONAL DELEGATION"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="612" y="43" width="122" height="12" uuid="19b21308-1f93-42bc-9cff-3d72dc7fa173"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPUBLIC OF CAMEROON]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="39" y="78" width="213" height="12" uuid="130b22f7-cd11-421c-8f8d-fe495c239923"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DELEGATION REGIONALE "+$P{regfr}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="39" y="116" width="133" height="11" uuid="6ceed21a-2f98-4173-bb13-b07054aaee61"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BP: "+$P{bp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="39" y="67" width="201" height="12" uuid="a6240736-b0c5-4367-935b-2b7b861e1710"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[MINISTERE DES ENSEIGNEMENTS SECONDAIRES  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="628" y="55" width="94" height="12" uuid="74f82e40-b3f3-47cc-bddd-91378490933d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[  Peace-Work-Fatherland]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="43" width="150" height="12" uuid="a12c9885-44d7-4450-b4a2-4a01e3c26153"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPUBLIQUE DU CAMEROUN  ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="620" y="128" width="132" height="11" uuid="1c929d84-a9ec-4db9-93b8-51c2d6e426f5"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PO BOX: "+$P{bp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="89" width="213" height="12" uuid="8680e521-3ebc-4cca-859f-26ae2cc33551"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DELEGATION DEPARTEMENTALE "+$P{depfr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="55" width="74" height="12" uuid="fdd1d8b2-9e50-4f73-a932-b7901e35c74c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ Paix-Travail-Patrie ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="521" y="109" width="235" height="17" uuid="4e6b749a-d592-445c-8eb7-eae30d8bfdce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etsan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="270" y="212" width="238" height="45" uuid="136f65a7-e206-4324-8b69-e2a64106066d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Script MT Bold" size="36"/>
+				</textElement>
+				<text><![CDATA[Décerné à]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="299" width="77" height="31" uuid="794bfd08-0a85-4d63-aa57-11b2aa475cda"/>
+				<textElement>
+					<font fontName="Script MT Bold" size="22"/>
+				</textElement>
+				<text><![CDATA[L'élève]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="299" width="132" height="31" uuid="0a17b189-49ca-4fa3-b003-88ed1cb28053"/>
+				<textElement>
+					<font fontName="Script MT Bold" size="22"/>
+				</textElement>
+				<text><![CDATA[de la classe de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="326" width="325" height="31" uuid="186671e6-630a-40b0-b595-cbfbd25441db"/>
+				<textElement>
+					<font fontName="Script MT Bold" size="22"/>
+				</textElement>
+				<text><![CDATA[qui a obtenu(e) une moyenne de]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="126" y="292" width="392" height="32" uuid="9850870a-86ad-4efc-b2d2-8fcaf0831908"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom}+" "+$F{prenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="663" y="292" width="105" height="31" uuid="37fa17dc-f955-43ea-955a-04e7e121877b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codeclasse}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="323" width="106" height="28" forecolor="#FF0000" uuid="dbec3dc0-c2d1-40c6-a469-bbd8c5daf913"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{moyenne}+"/20"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="474" y="326" width="288" height="31" uuid="75639504-7bab-47ef-ab74-83e605cde65a"/>
+				<textElement>
+					<font fontName="Script MT Bold" size="22"/>
+				</textElement>
+				<text><![CDATA[au cours du troisième trimestre]]></text>
+			</staticText>
+			<line>
+				<reportElement x="126" y="320" width="392" height="1" uuid="43e36f06-0b78-44af-9f20-d96c762da819"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="653" y="321" width="115" height="1" uuid="3380ff30-b928-488a-b058-fbd2d5762240"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="383" y="349" width="79" height="1" uuid="8cac3f73-ec6c-4f1a-9f66-569ab2ec259f"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="531" y="389" width="231" height="20" uuid="f8c69dca-b0d0-4460-8ada-a33f3a29f3af"/>
+				<textFieldExpression><![CDATA["Fait à "+$P{situation}+",Le"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="551" y="412" width="172" height="20" uuid="f9054084-5556-46ef-b599-e0c5ffbfda58"/>
+				<textFieldExpression><![CDATA[$P{principal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="277" y="129" width="337" height="24" uuid="6088191a-4727-4222-b6ce-11093eff3371"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ANNEE SCOLAIRE "+$P{ANNEESCO}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="383" y="20" width="15" height="8" uuid="9c7683e9-c7d7-430e-8709-886a6a45e28a"/>
+				<imageExpression><![CDATA["C:\\EASYNOTESREPORT\\imagesBulletins\\etoile.PNG"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="780" y="251" width="15" height="8" uuid="76afbf12-cf22-4290-ae23-d2c563111d0a"/>
+				<imageExpression><![CDATA["C:\\EASYNOTESREPORT\\imagesBulletins\\etoile.PNG"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="12" y="251" width="15" height="8" uuid="3edc206b-ca21-4331-bae8-881325948683"/>
+				<imageExpression><![CDATA["C:\\EASYNOTESREPORT\\imagesBulletins\\etoile.PNG"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="383" y="505" width="15" height="8" uuid="d927aeb0-b513-4c88-b059-e60b97de8c7f"/>
+				<imageExpression><![CDATA["C:\\EASYNOTESREPORT\\imagesBulletins\\etoile.PNG"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="46" y="357" width="352" height="34" uuid="22124a1c-e592-40be-9a70-72706a6cd4f6"/>
+				<textElement>
+					<font fontName="Script MT Bold" size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA["de l'année scolaire "+$P{ANNEESCO}+"."]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="368" y="49" width="74" height="48" uuid="123560b3-c2cb-4e5e-814e-ec0aea707f2b"/>
+				<imageExpression><![CDATA[$P{chemin}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+</jasperReport>

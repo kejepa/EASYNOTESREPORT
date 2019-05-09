@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="../resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/cssLayout.css" rel="stylesheet" media="screen and (color)" type="text/css"/>
+        <title>Guide Utilisateurs/User's Guide</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <img src="../resources/images/logo.gif" width="100%" height="100%" alt="logo"/>
+        </div>
+        <div>
+            <div id="left" style="width: 30%">
+                <h:form>
+                    <p:panelMenu > 
+                        <p:submenu icon="ui-icon-heart" label="Présentation">
+                            <p:menuitem immediate="true" url="presentation.xhtml" value="Présentation de EASYSCHOOLREPORT"/>
+                            <p:menuitem immediate="true" url="description.xhtml" value="Description de EASYSCHOOLREPORT"/>
+                        </p:submenu>
+                        <p:submenu icon="ui-icon-heart" label="Initialisation des Données">
+                            <p:menuitem immediate="true" url="ordreInit.xhtml" value="Ordre d'initialisation des données"/>
+                            <p:menuitem immediate="true" url="creerUser.xhtml" value="Créer un Utilisateur"/>
+                            <p:menuitem immediate="true" url="ets.xhtml" value="Propriétes Ets"/>
+                            <p:menuitem immediate="true" url="creerDept.xhtml" value="Créer un Département"/>
+                            <p:menuitem immediate="true" url="creerClasse.xhtml" value="Créer une Classe"/>
+                            <p:menuitem immediate="true" url="creerMatiere.xhtml" value="Créer une Matière"/>
+                            <p:menuitem immediate="true" url="attributionMatiereClasse.xhtml" value="Attribuer une matière à une classe"/>
+                            <p:menuitem immediate="true" url="attributionEnseignantMatiereClasse.xhtml" value="Attribuer un enseignant à une matière dans une classe"/>
+                            <p:menuitem immediate="true" url="ajouteleves.xhtml" value="Ajouter les élèves par classe"/>
+                            <p:menuitem immediate="true" url="ajoutpersonnel.xhtml" value="Ajouter un personnel"/>
+                            <p:menuitem immediate="true" url="changepwd.xhtml" value="Modifier Son mot de passe"/>
+                            <p:menuitem immediate="true" url="attribpp.xhtml" value="Attribuer Prof Principaux"/>
+                            <p:menuitem immediate="true" url="activerSequence.xhtml" value="Activer séquence ou Fixer les bornes"/>
+                        </p:submenu>
+                        <p:submenu icon="ui-icon-heart" label="Manipulation des Données">
+                            <p:menuitem immediate="true" url="saisienote.xhtml" value="Attribuer les notes aux élèves"/>
+                            <p:menuitem immediate="true" url="reconduiren.xhtml" value="Reconduire les notes"/>
+                            <p:menuitem immediate="true" url="calculenote.xhtml" value="Calculer les notes"/>
+                            <p:menuitem immediate="true" url="discipline.xhtml" value="Saisie de la Discipline"/>
+                            <p:menuitem immediate="true" url="donnepeda.xhtml" value="Saisie des données Pédagogiques"/>
+                        </p:submenu>
+                    </p:panelMenu>
+                </h:form>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">
+                    <p style="font-family: sans-serif;font-size: large;text-justify: auto">
+                        EASYSCHOOLREPORT version 2.0
+                        <br>Auteur: <g>Jean Paul KENFACK</g></br>
+                        <br><i>Ingénieur Informaticien</i></br>
+                    </p>
+                    <p style="font-family: sans-serif;font-size: large;text-justify: auto">
+                        <br>EASYSCHOOLREPORT est un logiciel conçu pour la gestion automatique des Documents périodiques(Bulletin scolaire;Fiche des données Pédagogiques; Procès verbal; fiches statistiques,etc...)  en milieu scolaire</br>
+                    </p>
+                </ui:insert>
+            </div>
+        </div>
+        <div id="bottom">
+            <marquee><h:outputText style="font-size: 1.5em; font-weight: bold; font-style: italic; color: white" value="#{lm.TextePied}"/></marquee>
+        </div>
+
+    </h:body>
+
+</html>

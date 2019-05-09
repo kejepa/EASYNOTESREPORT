@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form"> 
+            <p:ajax event="click" update="pan_use"/>
+            <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
+                <h:panelGrid>
+                    <f:view>
+                        <p:column>
+                            <f:facet name="header"/>
+                            <h1><h:outputText value="Consultation Discipline Seq3 Des élèves"/></h1>
+                        </p:column>
+                        <p:dataTable selectionMode="single" selection="#{disciplineSeqController.disciplineseq3}"
+                                     value="#{disciplineSeqController.discilineseq3List}" 
+                                     id="table" 
+                                     rowKey="#{item.matriculeeleve}"
+                                     scrollable="true"
+                                     scrollHeight="300"
+                                     sortBy="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"
+                                     var="item">
+                            <p:column width="90">
+                                <f:facet name="header">
+                                    <h:outputText value="N° Mle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.matriculeeleve}"/>
+                            </p:column>
+                            <p:column filterBy="#{item.listedeseleves.nom}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{lm.Nom} #{lm.Prenom}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="AB"/>
+                                </f:facet>
+                                <h:outputText value="#{item.absb}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="AJ"/>
+                                </f:facet>
+                                <h:outputText value="#{item.absj}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="AN"/>
+                                </f:facet>
+                                <h:outputText value="#{item.absn}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="AV"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.av}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="BL"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.bl}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="EX"/>
+                                </f:facet>
+                                <h:outputText value="#{item.consigne}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="CO"/>
+                                </f:facet>
+                                <h:outputText value="#{item.exclusion}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </f:view>
+                </h:panelGrid>
+            </h:panelGrid>
+
+            <p:separator /> 
+
+            <p:dialog header="Vos choix sont corrects?" modal="true" showEffect="fade" widgetVar="dlg" resizable="false">
+                <p:panel id="pan_use">
+                    <h1><h:outputText value="Les 3 Choix sont Obligatoires" rendered="#{disciplineSeqController.msgSelect}" style="color: red;font-size: large"/></h1>
+                    <p:panelGrid style="font-weight:bold; font-size: x-large " columns="2" id="display" columnClasses="label,output">
+                        <h:outputText value="SEQ:" />
+                        <h:outputText value="#{disciplineSeqController.seq}" />
+
+                        <h:outputText value="#{lm.Cleasse}:" />
+                        <h:outputText value="#{disciplineSeqController.classe}" />
+
+                        <h:outputText value="#{lm.Utilisateur}:" />
+                        <h:outputText value="#{connexionController.nom}" />
+                    </p:panelGrid>
+                    <f:facet name="footer">
+                        <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                            <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('dlg').hide()"/>
+                            <p:commandButton process="pan_use" immediate="true" value="#{lm.Confirmer}" action="#{disciplineSeqController.updateDatatableWithAjax()}" icon="ui-icon-check" update="pan_use"/>
+                        </h:panelGrid>
+                    </f:facet>
+                </p:panel>
+            </p:dialog>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

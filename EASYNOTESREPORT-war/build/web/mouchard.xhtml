@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="#{lm.Mouchard}"/></h1>
+                <p:dataTable selectionMode="single" 
+                             selection="#{operationController.mouchard}" 
+                             rowKey="#{item.idoperations}" 
+                             value="#{operationController.operationList}" 
+                             id="table" 
+                             stickyHeader="true"
+                             scrollable="true"
+                             scrollHeight="300"
+                             var="item">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column width="60" sortBy="#{item.idoperations}" style="width:26px;text-align:center">
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idoperations}"/>
+                    </p:column>
+                    <p:column width="250">
+                        <f:facet name="header">
+                            <h:outputText value="Opération"/>
+                        </f:facet>
+                        <h:outputText value="#{item.typeoperation}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="Cible"/>
+                        </f:facet>
+                        <h:outputText value="#{item.login}"/>
+                    </p:column>
+                    <p:column width="130">
+                        <f:facet name="header">
+                            <h:outputText value="Date et Heure"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateoperation}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT+1"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Description"/>
+                        </f:facet>
+                        <h:outputText value="#{item.description}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton widgetVar="supprimer" immediate="true" value="Supprimer la ligne selectionnée" actionListener="#{operationController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="supprimertout" immediate="true" value="Supprimer tout" actionListener="#{operationController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{operationController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{operationController.mouchards()}" icon="ui-icon-refresh"/>
+                    <h:commandButton immediate="true" value="#{lm.Imprimer}" action="#{operationController.imprimer()}"/> 
+                </h:panelGrid>
+
+                <!--  *****************allForm****************** !-->
+
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true" showEffect="fade" hideEffect="fade">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt" value="Mouvement sur Mouchard" />
+                    </f:facet>
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="Remplir le Formulaire puis Confirmer"/></h1>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Typeoperation:" for="typeoperation" />
+                            <h:inputText id="typeoperation" value="#{operationController.mouchard.typeoperation}" title="Typeoperation" />
+                            <h:outputLabel value="Dateoperation:" for="dateoperation" />
+                            <h:inputText id="dateoperation" value="#{operationController.mouchard.dateoperation}" title="Dateoperation" >
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" timeZone="GMT+1"/>
+                            </h:inputText>
+                            <h:outputLabel value="Description:" for="description" />
+                            <h:inputText id="description" value="#{operationController.mouchard.description}" title="Description" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()"/> 
+                                <p:commandButton rendered="#{operationController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{operationController.persistMouchard()}" update="pan_user"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

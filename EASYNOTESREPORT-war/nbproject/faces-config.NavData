@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="disciplineseq5.xhtml" x="150" y="150" zoom="false"/>
+        <Node id="saisienotepareleveseq2.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="utilisateur.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="accueil.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="calculnote.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="noteseq1.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="proprietesets.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="noteseq6.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="personnel.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="disciplineseq1.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="saisienotepareleveseq5.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="managedsaisiepareleve.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="disciplineseq3.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="password.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="saisienotes.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="ajouteleveparliste.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="bulletin.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="matiere.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="noteseq4.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="disciplineseq6.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="affectationEnseigClasse.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="activersequence.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="noteseq2.xhtml" x="2150" y="150" zoom="true"/>
+        <Node id="affectationMatiere.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="index.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="eleve.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="saisienotepareleveseq3.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="classe.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="manageddiscipline.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="saisienotepareleveseq1.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="disciplineseq4.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="saisienotepareleveseq6.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="noteseq5.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="disciplineseq2.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="login.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="saisienotepareleveseq4.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="noteseq3.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="pp.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="eleveParClasse.xhtml" x="1650" y="300" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

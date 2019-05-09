@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <f:view>
+            <h:form>
+                <center>
+                    <f:facet name="header">
+                        <p:separator/>
+                        <h:outputText style="font-size: 11pt; color: green; align-content: center" value="SAISIE DES DONNEES DE L'ETABLISSEMENT"/>
+                        <p:separator/>
+                    </f:facet>
+                    <p:panelGrid>
+                        <p:commandButton rendered="#{proprietesetsController.modifierpptets}" value="#{lm.Modifier}" icon="ui-icon-check" action="#{proprietesetsController.Modifier_pptEts()}" />
+                        <p:commandButton rendered="#{proprietesetsController.enregistrerpptets}" process="@form" value="#{lm.Enregistrer} Modification" icon="ui-icon-check" action="#{proprietesetsController.Enregistrer_pptEts()}"/>
+                    </p:panelGrid>
+                    <p:wizard flowListener="#{proprietesetsController.onFlowProcess}" style="position: absolute">
+                        <p:tab id="personal" title="Infos Ets Partie 1">
+                            <p:panel id="tab1" header="Informations sur l'Etablissement">
+                                <p:messages />
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Nom Ets en Fr:" for="nomdeletsfr" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="nomdeletsfr" value="#{proprietesetsController.pptets.nomdelets}" label="Nomdeletsfr" required="true" requiredMessage="The Nomdeletsfr field is required."/>
+                                    <h:outputLabel value="Nom Ets en Ang:" for="nomdeletsan" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="nomdeletsan" value="#{proprietesetsController.pptets.nomdeletsan}" label="Nomdeletsan" />
+                                    <h:outputLabel value="Delegation Régionale en Fr:" for="delegationregfr" />
+                                    <p:selectOneMenu disabled="#{proprietesetsController.activerPanel}" id="delegationregfr" value="#{proprietesetsController.pptets.delegationregfr}" label="Delegationregfr">
+                                        <f:selectItem itemLabel="ADAMAOUA" itemValue="DE L'ADAMAOUA"/> 
+                                        <f:selectItem itemLabel="CENTRE" itemValue="DU CENTRE"/>
+                                        <f:selectItem itemLabel="EST" itemValue="DE L'EST"/>
+                                        <f:selectItem itemLabel="EXTREME NORD" itemValue="DE L'EXTREME NORD"/>
+                                        <f:selectItem itemLabel="LITTORAL" itemValue="DU LITTORAL"/>
+                                        <f:selectItem itemLabel="NORD" itemValue="DU NORD"/>
+                                        <f:selectItem itemLabel="NORD OUEST" itemValue="DU NORD OUEST"/>
+                                        <f:selectItem itemLabel="OUEST" itemValue="DE L'OUEST"/>
+                                        <f:selectItem itemLabel="SUD" itemValue="DU SUD"/>
+                                        <f:selectItem itemLabel="SUD D'OUEST" itemValue="DU SUD D'OUEST"/>
+                                    </p:selectOneMenu>
+                                    <h:outputLabel value="Delegation Régionale en Ang:" for="delegationregan" />
+                                    <p:selectOneMenu disabled="#{proprietesetsController.activerPanel}" id="delegationregan" value="#{proprietesetsController.pptets.delegationregan}" label="Delegationregan">
+                                        <f:selectItem itemLabel="ADAMAOUA" itemValue="ADAMAOUA"/>
+                                        <f:selectItem itemLabel="CENTRAL" itemValue="CENTRAL"/>
+                                        <f:selectItem itemLabel="EAST" itemValue="EAST"/>
+                                        <f:selectItem itemLabel="FAR NORD" itemValue="FAR NORD"/>
+                                        <f:selectItem itemLabel="LITTORAL" itemValue="LITTORAL"/>
+                                        <f:selectItem itemLabel="NORD" itemValue="NORD"/>
+                                        <f:selectItem itemLabel="NORD WEST" itemValue="NORD WEST"/>
+                                        <f:selectItem itemLabel="WEST" itemValue="WEST"/>
+                                        <f:selectItem itemLabel="SOUTH" itemValue="SOUTH"/>
+                                        <f:selectItem itemLabel="SOUTH WEST" itemValue="SOUTH WEST"/>
+                                    </p:selectOneMenu> 
+                                    <h:outputLabel value="Delegation Départemental en Fr:" for="delegationdepfr" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="delegationdepfr" value="#{proprietesetsController.pptets.delegationdepfr}" label="Delegationdepfr" />
+                                    <h:outputLabel value="Delegation Départemental en Ang:" for="delegationdepan" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="delegationdepan" value="#{proprietesetsController.pptets.delegationdepan}" label="Delegationdepan" />
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="address" title="Infos Ets Partie 2">
+                            <p:panel id="tab2" header="Informations sur l'Etablissement">
+                                <p:messages />
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Situation Géographique:" for="situation" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="situation" value="#{proprietesetsController.pptets.situation}" label="Situation" />
+                                    <h:outputLabel value="Chef Ets:" for="principal" />
+                                    <p:selectOneMenu disabled="#{proprietesetsController.activerPanel}" id="principal" value="#{proprietesetsController.pptets.principal}" label="Principal">
+                                        <f:selectItem itemLabel="Proviseur/Principal" itemValue="Le Proviseur/The Principal,"/>
+                                        <f:selectItem itemLabel="Directeur" itemValue="Le Directeur/The Director,"/>
+                                    </p:selectOneMenu>
+                                    <h:outputLabel value="Telephone:" for="telephone" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="telephone" value="#{proprietesetsController.pptets.telephone}" label="Telephone" />
+                                    <h:outputLabel value="Boite postale:" for="boitepostale" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="boitepostale" value="#{proprietesetsController.pptets.boitepostale}" label="Boitepostale" />
+                                    <h:outputLabel value="Email:" for="email" />
+                                    <p:inputText disabled="#{proprietesetsController.activerPanel}" id="email" value="#{proprietesetsController.pptets.email}" label="Email" />
+                                </h:panelGrid>
+                                <h:form enctype="multipart/form-data">
+                                    <h:panelGrid columns="1">  
+                                        <p:panelGrid columns="2">
+                                            <p:panelGrid columns="1">
+                                                <h:inputFile disabled="#{proprietesetsController.modifierpptets}" id="part" value="#{proprietesetsController.image}">
+                                                    <f:passThroughAttribute name="accept" value="image/png"/>
+                                                    <f:ajax event="change" listener="#{proprietesetsController.uploadfiles()}" execute="@form" render="@form"/>                      
+                                                </h:inputFile>
+                                            </p:panelGrid>
+                                            <p:panelGrid rendered="#{proprietesetsController.upladed}" columns="1">
+                                                <img width="40" height="30" src="image.png"/>
+                                            </p:panelGrid>
+                                        </p:panelGrid>
+                                        <p:panelGrid columns="2">
+                                            <h:outputLabel value="Chemin logo:" for="cheminlogo" />
+                                            <p:inputText disabled="#{proprietesetsController.activerPanel}" id="cheminlogo" value="#{proprietesetsController.pptets.cheminlogo}" label="Cheminlogo" />
+                                        </p:panelGrid>
+                                    </h:panelGrid>   
+                                </h:form>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="confirm" title="Confirmation">
+                            <p:panel id="tab3" header="Informations sur l'Etablissement">
+                                <h:panelGrid id="confirmation" columns="3">
+                                    <h:panelGrid columns="2">
+                                        <h:inputText value="Nom Ets en Fr:"/>
+                                        <h:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.nomdelets}" title="Nomdeletsfr" required="true" requiredMessage="The Nomdeletsfr field is required."/>
+                                        <h:inputText value="Nom Ets en Ang:" />
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.nomdeletsan}" title="Nomdeletsan" />
+                                        <h:inputText value="Delegation Régionale en Fr:"/>
+                                        <h:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.delegationregfr}" title="Delegationregfr"/>
+                                        <h:inputText value="Delegation Régionale en Ang:"/>
+                                        <h:inputText disabled="#{proprietesetsController.activerPanel}"  value="#{proprietesetsController.pptets.delegationregan}" title="Delegationregan"/>
+                                        <h:inputText value="Delegation Départemental en Fr:"/>
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}"  value="#{proprietesetsController.pptets.delegationdepfr}" title="Delegationdepfr" />
+                                        <h:inputText value="Delegation Départemental en Ang:"/>
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.delegationdepan}" title="Delegationdepan" />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <h:inputText value="Situation Géographique:"/>
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.situation}" title="Situation" />
+                                        <h:inputText value="Chef Ets:"/>
+                                        <h:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.principal}" title="Principal"/>
+                                        <h:inputText value="Telephone:"/>
+                                        <h:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.telephone}" title="Telephone" />
+                                        <h:inputText value="Boite postale:"/>
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.boitepostale}" title="Boitepostale" />
+                                        <h:inputText value="Email:"/>
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.email}" title="Email" />
+                                        <h:inputText value="Chemin logo:"/>
+                                        <p:inputText disabled="#{proprietesetsController.activerPanel}" value="#{proprietesetsController.pptets.cheminlogo}" title="Cheminlogo" />
+                                        <p:panelGrid>
+                                            <p:commandButton rendered="#{proprietesetsController.modifierpptets}" value="#{lm.Modifier}" icon="ui-icon-check" action="#{proprietesetsController.Modifier_pptEts()}" />
+                                            <p:commandButton rendered="#{proprietesetsController.enregistrerpptets}" process="@form" value="#{lm.Enregistrer} Modification" icon="ui-icon-check" action="#{proprietesetsController.Enregistrer_pptEts()}"/>
+                                        </p:panelGrid>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </center>
+            </h:form>
+        </f:view> 
+    </ui:define>
+</ui:composition>

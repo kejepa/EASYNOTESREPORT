@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="List"/></h1>
+                <p:dataTable value="#{profPrincipalController.ppList}"
+                             selectionMode="single" 
+                             selection="#{profPrincipalController.pp}"
+                             rowKey="#{item.codeclasse}" 
+                             id="table" 
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             var="item"
+                             rowIndexVar="rowindex">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column headerText="N°">
+                        <h:outputText value="#{rowindex+1}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Matriculeenseignant"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matriculeenseignant}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Codeclasse"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codeclasse}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{profPrincipalController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{profPrincipalController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{profPrincipalController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{profPrincipalController.pps()}" icon="ui-icon-refresh"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red; align-content: center" value="#{lm.Professeurs_Principaux}"/>
+                    </f:facet>
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h:panelGrid columns="2"> 
+                            <p:outputLabel value="Codeclasse:" for="codeclasse" />
+                            <p:selectOneMenu required="true" id="codeclasse" value="#{profPrincipalController.pp.codeclasse}" >
+                                <p:ajax listener="#{profPrincipalController.listeProfParClasse()}" update="matriculeenseignant"/>
+                                <f:selectItem itemLabel="Click" itemValue="" />
+                                <f:selectItems value="#{affectMatController.listeClasses()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Professeur Principal:" for="matriculeenseignant" />                          
+                            <p:selectOneMenu required="true" id="matriculeenseignant" value="#{profPrincipalController.pp.matriculeenseignant}">
+                                <f:selectItem itemLabel="Click" itemValue="" />
+                                <f:selectItems id="testons" value="#{profPrincipalController.listeProfParClasse()}"/>
+                            </p:selectOneMenu>        
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()" action="#{profPrincipalController.pps()}"/>
+                                <p:commandButton rendered="#{profPrincipalController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{profPrincipalController.persistPps()}" update="pan_user"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

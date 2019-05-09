@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" media="screen" type="text/css"/>
+        <!-- JavaScripts -->      
+        <script charset="utf-8" type="text/javascript" src="./resources/css/respond.min.js"></script>
+        <title>EasyReportNotes 2.0</title>
+    </h:head>
+
+    <h:body>
+        <f:view locale="#{langueController.langue}"> 
+            <div id="top">
+                <img src="./resources/images/logo.gif" width="100%" height="100%" alt="logo"/>
+            </div>
+            <h:form>
+                <p:menubar style="float: right">
+                    <p:menuitem value="#{lm['Francais']}" action="#{langueController.francais()}" immediate="true"/>
+                    <p:menuitem value="#{lm['Anglais']}" action="#{langueController.anglais()}" immediate="true"/>
+                </p:menubar>
+            </h:form>
+            <div>
+                <div id="left">
+                    <ui:insert name="left"></ui:insert>
+                </div>
+                <div id="content" class="left_content" align="center">
+                    <ui:insert name="content">
+                        <f:view>
+                            <h:form>
+                                <p:fieldset legend="Authentification" toggleable="true" style="width:20%;">
+                                    <h1><h:outputText value="#{lm.ParametrageConnect}"/></h1>
+                                    <h:panelGrid id="pan_grid1">
+                                        <h:outputText value="#{lm.ErreurLogin}" rendered="#{connexionController.testConnection}" style="color: red;font-size: large"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid id="pan_grid2" columns="3">
+                                        <h:outputLabel value="Login:" for="login" />
+                                        <p:inputText id="login" value="#{connexionController.user.login}" title="Login" required="true" requiredMessage="#{lm.ErreurLogin}"/>
+                                        <p:message for="login"/>
+
+                                        <h:outputLabel value="Password:" for="password" />
+                                        <p:password id="password" value="#{connexionController.user.password}" title="Password" />
+                                        <p:message for="password"/> 
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="1">
+                                        <p:commandButton value="#{lm.Se_Connecter}" action="#{connexionController.connexion()}" update="pan_grid1,pan_grid2"/>                                  
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            </h:form>
+                        </f:view>
+                    </ui:insert>
+                </div>
+            </div>
+            <div id="bottom">
+                <marquee><h:outputText style="font-size: 1.5em; font-weight: bold; font-style: italic; color: white" value="#{lm.TextePied}"/></marquee>
+            </div>
+        </f:view>
+    </h:body>
+
+</html>

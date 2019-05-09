@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="Liste de toutes les données pédagogiques"/></h1>
+                <p:dataTable  selectionMode="single"
+                              selection="#{dPController.dp}"
+                              rowKey="#{item.donnespedagogiquesPK}" 
+                              value="#{dPController.dpList}" 
+                              var="item"
+                              id="table" 
+                              scrollable="true"
+                              scrollHeight="350"
+                              emptyMessage="#{lm.Valeur_Datatable}"
+                              widgetVar="TableStud">
+                    <p:column width="25" filterBy="#{item.donnespedagogiquesPK.periode}">
+                        <f:facet name="header">
+                            <h:outputText value="SEQ"/>
+                        </f:facet>
+                        <h:outputText value="#{item.donnespedagogiquesPK.periode}"/>
+                    </p:column>
+                    <p:column width="125" filterBy="#{item.donnespedagogiquesPK.niveaux}">
+                        <f:facet name="header">
+                            <h:outputText value="Classes"/>
+                        </f:facet>
+                        <h:outputText value="#{item.donnespedagogiquesPK.niveaux}"/>
+                    </p:column>
+                    <p:column width="90" filterBy="#{item.matieres}">
+                        <f:facet name="header">
+                            <h:outputText value="Matieres"/>
+                        </f:facet>
+                        <h:outputText value="#{item.donnespedagogiquesPK.codematiere}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Lpcpt"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lpcpt}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Lfcpt"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lfcpt}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Lpcpp"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lpcpp}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Lfcpp"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lfcpp}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Hpchc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hpchc}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Hfchc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hfchc}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="NN"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nn}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="MG"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mg}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Nae"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nae}"/>
+                    </p:column>
+                    <p:column width="35">
+                        <f:facet name="header">
+                            <h:outputText value="Nsc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nsc}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

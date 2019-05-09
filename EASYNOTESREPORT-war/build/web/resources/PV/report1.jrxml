@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1261023-54a9-4a16-9ace-825c96a01b03">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString>
+		<![CDATA[select l.matriculeeleve,s.moyenne,n.codematiere,n.lanote
+from listedeseleves l
+inner join notesdeselevesseq1 n on n.matriculeeleve=l.matriculeeleve
+inner join seq1moyennesrangsdeseleves s on s.matriculeeleve=l.matriculeeleve
+where l.codeclasse='3ESP']]>
+	</queryString>
+	<field name="matriculeeleve" class="java.lang.String"/>
+	<field name="moyenne" class="java.math.BigDecimal"/>
+	<field name="codematiere" class="java.lang.String"/>
+	<field name="lanote" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="679" height="42" uuid="e891f524-e913-4cc6-89a8-e2584683e567"/>
+				<rowGroup name="matriculeeleve" width="70">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{matriculeeleve}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="c49d135f-cab4-4fce-beb0-63854654166f"/>
+								<textFieldExpression><![CDATA[$V{matriculeeleve}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="codematiere" height="30">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{codematiere}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="36" height="30" uuid="0ef974e5-dee1-4f51-b1b1-56823f621696"/>
+								<textFieldExpression><![CDATA[$V{codematiere}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="lanoteMeasure" class="java.math.BigDecimal">
+					<measureExpression><![CDATA[$F{lanote}]]></measureExpression>
+				</measure>
+				<crosstabCell width="36" height="25">
+					<cellContents>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="36" height="25" uuid="032d484c-a355-462f-8eb3-a0390f8e2f1f"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="matriculeeleve">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="3a3b4e20-54ee-4daf-9286-67298bcb4992"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="codematiere">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="a087a941-277a-421d-9d02-5e704aeee5b6"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="matriculeeleve" columnTotalGroup="codematiere">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="d3552d87-8adb-47a8-a8d2-5097667b7f51"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

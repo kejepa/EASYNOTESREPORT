@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true"/>
+                <p:dataTable selectionMode="single" 
+                             selection="#{eleveController.eleve}"
+                             rowKey="#{item.matriculeeleve}" 
+                             value="#{eleveController.eleveList}"
+                             id="table" 
+                             scrollable="true"
+                             scrollHeight="200"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rows="7"
+                             rowsPerPageTemplate="5,10,15"
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             widgetVar="TableStud"
+                             rowIndexVar="rowindex"
+                             var="item">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h1><h:outputText value="#{lm.Liste_Eleves}"/></h1>
+                            <h:outputText value="#{lm.RechercheToutChamp}" />
+                            <p:inputText id="globalFilter" onkeyup="PF('TableStud').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:ajax event="cellEdit" listener="#{eleveController.onCellEdit}" update=":form:growl"/>
+                    <p:column headerText="N°">
+                        <h:outputText value="#{rowindex+1}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.matriculeeleve}"> 
+                        <f:facet name="header">
+                            <h:outputText value="Matriculeeleve"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matriculeeleve}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.prenom}">
+                        <f:facet name="header">
+                            <h:outputText value="Prenom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.prenom}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.codeclasse}">
+                        <f:facet name="header">
+                            <h:outputText value="Classe"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codeclasse}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.sexe}">
+                        <f:facet name="header">
+                            <h:outputText value="Sexe"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sexe}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.datenaiss}">
+                        <f:facet name="header">
+                            <h:outputText value="Datenaiss"/>
+                        </f:facet>
+                        <h:outputText value="#{item.datenaiss}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+1"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Lieunaiss" filterBy="#{item.lieunaiss}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{item.lieunaiss}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{item.lieunaiss}" style="width:100%" label="Year"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{item.adresse}">
+                        <f:facet name="header">
+                            <h:outputText value="Adresse"/>
+                        </f:facet>
+                        <h:outputText value="#{item.adresse}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.redoublant}">
+                        <f:facet name="header">
+                            <h:outputText value="Redoublant"/>
+                        </f:facet>
+                        <h:outputText value="#{item.redoublant}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.inscrit}">
+                        <f:facet name="header">
+                            <h:outputText value="Inscrit"/>
+                        </f:facet>
+                        <h:outputText value="#{item.inscrit}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Photo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.photo}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{eleveController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{eleveController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{eleveController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{eleveController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{eleveController.eleves()}" icon="ui-icon-refresh"/>
+                    <h:commandButton immediate="true" value="#{lm.Imprimer}" action="#{syntheseController.imprimerFicheSynthTrim_An()}"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red" value="#{lm.Mouvement_Sur} #{lm.Eleve}"/>
+                    </f:facet>
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.Eleve_Existe_Deja}" rendered="#{utilisateurController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Matriculeeleve:" for="matriculeeleve" />
+                                <p:inputText onfocus="#{eleveController.desactiverimage()}" id="matriculeeleve" value="#{eleveController.eleve.matriculeeleve}" title="Matriculeeleve" required="true" requiredMessage="The Matriculeeleve field is required."/>
+                                <p:outputLabel value="Nom:" for="nom" />
+                                <p:inputText id="nom" value="#{eleveController.eleve.nom}" title="Nom" required="true"/>
+                                <p:outputLabel value="Prenom:" for="prenom" />
+                                <p:inputText id="prenom" value="#{eleveController.eleve.prenom}" title="Prenom" />
+                                <p:outputLabel value="Classe" for="classe" />
+                                <p:selectOneMenu converter="classeEleveConverter" id="classe" value="#{eleveController.eleve.codeclasse}" title="Classe" required="true">
+                                    <f:selectItems value="#{affectMatController.listeClasses()}"/>
+                                </p:selectOneMenu>
+                                <h:outputLabel value="Sexe:" for="sexe" />
+                                <p:selectOneRadio  id="sexe" value="#{eleveController.eleve.sexe}" required="true">
+                                    <f:selectItem itemLabel="#{lm.Masculin}" itemValue="G" />
+                                    <f:selectItem itemLabel="#{lm.Feminin}" itemValue="F" />
+                                </p:selectOneRadio>
+                                <p:outputLabel value="Datenaiss:" for="datenaiss" />
+                                <p:inputMask id="datenaiss" value="#{eleveController.eleve.datenaiss}" mask="99/99/9999" title="Datenaiss" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+1"/>
+                                </p:inputMask>
+                                <p:outputLabel value="Lieunaiss:" for="lieunaiss" />
+                                <p:inputText id="lieunaiss" value="#{eleveController.eleve.lieunaiss}" title="Lieunaiss" />
+                                <p:outputLabel value="Adresse:" for="adresse" />
+                                <p:inputText id="adresse" value="#{eleveController.eleve.adresse}" title="Adresse" />
+                                <p:outputLabel value="Redoublant:" for="redoublant" />
+                                <p:selectOneMenu id="redoublant" value="#{eleveController.eleve.redoublant}" title="Redoublant">
+                                    <f:selectItem itemLabel="#{lm.Non}" itemValue="Non" />
+                                    <f:selectItem itemLabel="#{lm.Oui}" itemValue="Oui" />                               
+                                </p:selectOneMenu>  
+                                <p:outputLabel value="Inscrit:" for="inscrit" />
+                                <p:inputText id="inscrit" value="#{eleveController.eleve.inscrit}" title="Inscrit" />
+                                <p:outputLabel value="Photo:" for="photo" />
+                                <p:inputText id="photo" value="#{eleveController.eleve.photo}" title="Photo" />
+                            </h:panelGrid>
+                            <h:panelGrid rendered="#{eleveController.imgConfirm}" columns="1">
+                                <img  src="resources/images/btnOK.png" width="60" height="60" alt="btnOK"/>
+                            </h:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" action="#{eleveController.eleves()}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                    <p:commandButton rendered="#{eleveController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{eleveController.persistEleves()}" update="pan_user"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

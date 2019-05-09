@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./aide.xhtml">
+
+    <ui:define name="content">
+        <p style="font-family: sans-serif;font-size: large;text-justify: auto">
+            EASYSCHOOLREPORT est un logiciel fonctionnant en multi sessions. Chaque session correspondant à une catégorie d'utilisateurs bien précise pouvant effectuer une certaine variété de tâches.
+            EASYSCHOOLREPORT les regroupe en 05 catégories à savoir :
+        </p>
+        <p style="font-family: sans-serif;font-size: large;text-justify: auto">
+           1- Administrateur : C'est l'utilisateur qui a tous les droits dans le système.Il peut s'agir du Chef d'établissement ou de toute autrepersonne mandatée... C'est d'ailleurs lui qui crée tous les autres utilisateur !<br>
+                NB: POUR UN BON CONTROLE DE LA SECURITE DANS LE SYSTEME, IL EST CONSEILLE DE N'AVOIR QU'UN SEUL ADMINISTRATEUR ... </br>
+
+                <br>2- Employé : C'est la catégorie des utilisateurs qui aident l'Administrateur dans ses tâches. Seulement, les traces des opérations qu'un employé effectue restent visibles et peuvent donc être contrôlées par l'Administrateur.
+                </br>
+                <br> 3- Responsable pédagogique : C'est un Censeur ou toute autre personne mandatée pour gérée l'aspect pédagogique du système. Il peut attribuer des classes aux enseignants, des matières aux classes, résoudre des requêtes de notes des élèves et autres...
+                </br>
+                <br> 4- Responsable disciplinaire : C'est un Surveillant ou tout autre pouvant indiquer les conduites des élèves telles que les heures d'absence et autres...
+                </br>
+                <br> 5- Professeur : Cette catégorie concerne les enseignants qui peuvent entrer les notes des élèves, chacun dans sa classe et suivant sa matière, muni d'un mot de passe.
+                    Un professeur, comme tout autre utilisateur ci-dessus, peut consulter les informations statistiques.
+                </br> 
+        </p>
+    </ui:define>
+
+</ui:composition>

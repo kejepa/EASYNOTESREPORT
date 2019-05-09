@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form>
+            <center>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
+                    <p:panelGrid  columns="1">
+                        <f:facet name="header">
+                            <h1><h:outputLabel value="ACTIVATION OU DESACTIVATION SEQUENCE"/></h1>
+                        </f:facet>
+                        <p:panelGrid columns="2">
+                            <h:outputText value="SEQ1: " />
+                            <p:selectBooleanCheckbox disabled="#{etsInfoController.modifierSeq}" value="#{etsInfoController.seq1}" />
+                            <h:outputText value="SEQ2: " />
+                            <p:selectBooleanCheckbox disabled="#{etsInfoController.modifierSeq}" value="#{etsInfoController.seq2}" />
+                            <h:outputText value="SEQ3: " />
+                            <p:selectBooleanCheckbox disabled="#{etsInfoController.modifierSeq}" value="#{etsInfoController.seq3}" />
+                            <h:outputText value="SEQ4: " />
+                            <p:selectBooleanCheckbox disabled="#{etsInfoController.modifierSeq}" value="#{etsInfoController.seq4}" />
+                            <h:outputText value="SEQ5: " />
+                            <p:selectBooleanCheckbox disabled="#{etsInfoController.modifierSeq}" value="#{etsInfoController.seq5}" />
+                            <h:outputText value="SEQ6: " />
+                            <p:selectBooleanCheckbox disabled="#{etsInfoController.modifierSeq}" value="#{etsInfoController.seq6}" />
+                        </p:panelGrid>
+                        <p:panelGrid>
+                            <p:commandButton rendered="#{etsInfoController.btnModifier}" value="Modifier" icon="ui-icon-check" action="#{etsInfoController.modifiersequence()}" />
+                            <p:commandButton rendered="#{etsInfoController.btnEnregistrer}" value="Enregistrer Les Modifications" icon="ui-icon-check" action="#{etsInfoController.acti_deative_seq()}" />
+                        </p:panelGrid>
+                    </p:panelGrid>   
+                    <p:panelGrid  columns="1">
+                        <f:facet name="header">
+                            <h1><h:outputLabel value="FIXATION DES BORNES DE TRAVAIL ET DE DISCIPLINE"/></h1>
+                        </f:facet>
+                        <h:outputText value="BORNES DE TRAVAIL" style="color: green"/>
+                        <p:panelGrid  columns="2">
+                            <h:outputText value="Avertissements: Moyenne infériure à: " />
+                            <p:selectOneMenu disabled="#{etsInfoController.modifierSeqTravail}" id="avertitravail" value="#{etsInfoController.avertissementTravail}"  style="width:125px">
+                                <f:selectItem itemLabel="9.75" itemValue="9.75" />
+                                <f:selectItem itemLabel="9.50" itemValue="9.50" />
+                                <f:selectItem itemLabel="9.25" itemValue="9.25" />
+                                <f:selectItem itemLabel="9.00" itemValue="9.00" />
+                                <f:selectItem itemLabel="8.75" itemValue="8.75" />
+                                <f:selectItem itemLabel="8.50" itemValue="8.50" />
+                                <f:selectItem itemLabel="8.25" itemValue="8.25" />
+                                <f:selectItem itemLabel="8.00" itemValue="8.00" />
+                                <f:selectItem itemLabel="7.75" itemValue="7.75" />
+                                <f:selectItem itemLabel="7.50" itemValue="7.50" />
+                                <f:selectItem itemLabel="7.25" itemValue="7.25" />
+                                <f:selectItem itemLabel="7.00" itemValue="7.00" />
+                                <f:selectItem itemLabel="6.75" itemValue="6.75" />
+                                <f:selectItem itemLabel="6.50" itemValue="6.50" />
+                                <f:selectItem itemLabel="6.25" itemValue="6.25" />
+                                <f:selectItem itemLabel="6.00" itemValue="6.00" />
+                                <f:selectItem itemLabel="5.75" itemValue="5.75" />
+                                <f:selectItem itemLabel="5.50" itemValue="5.50" />
+                                <f:selectItem itemLabel="5.25" itemValue="5.25" />
+                                <f:selectItem itemLabel="5.00" itemValue="5.00" />
+                                <f:selectItem itemLabel="4.75" itemValue="4.75" />
+                                <f:selectItem itemLabel="4.50" itemValue="4.50" />
+                                <f:selectItem itemLabel="4.25" itemValue="4.25" />
+                                <f:selectItem itemLabel="4.00" itemValue="4.00" />
+                                <f:selectItem itemLabel="3.75" itemValue="3.75" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Blâmes: Moyenne infériure à: " />
+                            <p:selectOneMenu disabled="#{etsInfoController.modifierSeqTravail}" id="blametravail" value="#{etsInfoController.blameTravail}" style="width:125px">
+                                <f:selectItem itemLabel="9.75" itemValue="9.75" />
+                                <f:selectItem itemLabel="9.50" itemValue="9.50" />
+                                <f:selectItem itemLabel="9.25" itemValue="9.25" />
+                                <f:selectItem itemLabel="9.00" itemValue="9.00" />
+                                <f:selectItem itemLabel="8.75" itemValue="8.75" />
+                                <f:selectItem itemLabel="8.50" itemValue="8.50" />
+                                <f:selectItem itemLabel="8.25" itemValue="8.25" />
+                                <f:selectItem itemLabel="8.00" itemValue="8.00" />
+                                <f:selectItem itemLabel="7.75" itemValue="7.75" />
+                                <f:selectItem itemLabel="7.50" itemValue="7.50" />
+                                <f:selectItem itemLabel="7.25" itemValue="7.25" />
+                                <f:selectItem itemLabel="7.00" itemValue="7.00" />
+                                <f:selectItem itemLabel="6.75" itemValue="6.75" />
+                                <f:selectItem itemLabel="6.50" itemValue="6.50" />
+                                <f:selectItem itemLabel="6.25" itemValue="6.25" />
+                                <f:selectItem itemLabel="6.00" itemValue="6.00" />
+                                <f:selectItem itemLabel="5.75" itemValue="5.75" />
+                                <f:selectItem itemLabel="5.50" itemValue="5.50" />
+                                <f:selectItem itemLabel="5.25" itemValue="5.25" />
+                                <f:selectItem itemLabel="5.00" itemValue="5.00" />
+                                <f:selectItem itemLabel="4.75" itemValue="4.75" />
+                                <f:selectItem itemLabel="4.50" itemValue="4.50" />
+                                <f:selectItem itemLabel="4.25" itemValue="4.25" />
+                                <f:selectItem itemLabel="4.00" itemValue="4.00" />
+                                <f:selectItem itemLabel="3.75" itemValue="3.75" />
+                                <f:selectItem itemLabel="3.50" itemValue="3.50" />
+                                <f:selectItem itemLabel="3.25" itemValue="3.25" />
+                                <f:selectItem itemLabel="3.00" itemValue="3.00" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <h:outputText value="BORNES DE DISCIPLINE" style="color: green"/>
+                        <p:panelGrid columns="2">
+                            <h:outputText value="Avertissements: Heures d'absences à partir de: " />
+                            <p:selectOneMenu disabled="#{etsInfoController.modifierSeqTravail}" id="avertidiscipline" value="#{etsInfoController.avertissementDiscipline}" style="width:125px">
+                                <f:selectItem itemLabel="5" itemValue="5" />
+                                <f:selectItem itemLabel="6" itemValue="6" />
+                                <f:selectItem itemLabel="7" itemValue="7" />
+                                <f:selectItem itemLabel="8" itemValue="8" />
+                                <f:selectItem itemLabel="9" itemValue="9" />
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                                <f:selectItem itemLabel="11" itemValue="11" />
+                                <f:selectItem itemLabel="12" itemValue="12" />
+                                <f:selectItem itemLabel="13" itemValue="13" />
+                                <f:selectItem itemLabel="14" itemValue="14" />
+                                <f:selectItem itemLabel="15" itemValue="15" />
+                                <f:selectItem itemLabel="16" itemValue="16" />
+                                <f:selectItem itemLabel="17" itemValue="17" />
+                                <f:selectItem itemLabel="18" itemValue="18" />
+                                <f:selectItem itemLabel="19" itemValue="19" />
+                                <f:selectItem itemLabel="20" itemValue="20" />
+                                <f:selectItem itemLabel="21" itemValue="21" />
+                                <f:selectItem itemLabel="22" itemValue="22" />
+                                <f:selectItem itemLabel="23" itemValue="23" />
+                                <f:selectItem itemLabel="24" itemValue="24" />
+                                <f:selectItem itemLabel="25" itemValue="25" />
+                                <f:selectItem itemLabel="26" itemValue="26" />
+                                <f:selectItem itemLabel="27" itemValue="27" />
+                                <f:selectItem itemLabel="28" itemValue="28" />
+                                <f:selectItem itemLabel="29" itemValue="29" />
+                                <f:selectItem itemLabel="30" itemValue="30" />
+                                <f:selectItem itemLabel="31" itemValue="31" />
+                                <f:selectItem itemLabel="32" itemValue="32" />
+                                <f:selectItem itemLabel="33" itemValue="33" />
+                                <f:selectItem itemLabel="34" itemValue="34" />
+                                <f:selectItem itemLabel="35" itemValue="35" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Blâmes: Heures d'absences à partir de: " />   
+                            <p:selectOneMenu disabled="#{etsInfoController.modifierSeqTravail}" id="blamediscipline" value="#{etsInfoController.blameDiscipline}" style="width:125px">
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                                <f:selectItem itemLabel="11" itemValue="11" />
+                                <f:selectItem itemLabel="12" itemValue="12" />
+                                <f:selectItem itemLabel="13" itemValue="13" />
+                                <f:selectItem itemLabel="14" itemValue="14" />
+                                <f:selectItem itemLabel="15" itemValue="15" />
+                                <f:selectItem itemLabel="16" itemValue="16" />
+                                <f:selectItem itemLabel="17" itemValue="17" />
+                                <f:selectItem itemLabel="18" itemValue="18" />
+                                <f:selectItem itemLabel="19" itemValue="19" />
+                                <f:selectItem itemLabel="20" itemValue="20" />
+                                <f:selectItem itemLabel="21" itemValue="21" />
+                                <f:selectItem itemLabel="22" itemValue="22" />
+                                <f:selectItem itemLabel="23" itemValue="23" />
+                                <f:selectItem itemLabel="24" itemValue="24" />
+                                <f:selectItem itemLabel="25" itemValue="25" />
+                                <f:selectItem itemLabel="26" itemValue="26" />
+                                <f:selectItem itemLabel="27" itemValue="27" />
+                                <f:selectItem itemLabel="28" itemValue="28" />
+                                <f:selectItem itemLabel="29" itemValue="29" />
+                                <f:selectItem itemLabel="30" itemValue="30" />
+                                <f:selectItem itemLabel="31" itemValue="31" />
+                                <f:selectItem itemLabel="32" itemValue="32" />
+                                <f:selectItem itemLabel="33" itemValue="33" />
+                                <f:selectItem itemLabel="34" itemValue="34" />
+                                <f:selectItem itemLabel="35" itemValue="35" />
+                                <f:selectItem itemLabel="36" itemValue="36" />
+                                <f:selectItem itemLabel="37" itemValue="37" />
+                                <f:selectItem itemLabel="38" itemValue="38" />
+                                <f:selectItem itemLabel="39" itemValue="39" />
+                                <f:selectItem itemLabel="40" itemValue="40" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:panelGrid>
+                            <p:commandButton rendered="#{etsInfoController.btnModifierTravail}" value="#{lm.Modifier}" icon="ui-icon-check" action="#{etsInfoController.modifierBorneFixation()}" />
+                            <p:commandButton rendered="#{etsInfoController.btnEnregistrerTravail}" value="#{lm.Enregistrer} Modification" icon="ui-icon-check" action="#{etsInfoController.enrefistrerFixation()}" />
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </h:panelGrid>  
+            </center>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

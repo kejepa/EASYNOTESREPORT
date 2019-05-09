@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h:panelGrid style="margin: auto;" columns="3">
+                    <h:panelGrid width="160" columns="2">
+                        <p:outputLabel value="SEQUENCE:" for="sequence"/>
+                        <p:outputLabel id="sequence" value="#{reconduireController.seqdestin}" title="Sequence"/>
+                        <p:separator/><br/>
+                        <p:outputLabel value="#{lm.Cleasse}:" for="classe"/>
+                        <p:outputLabel id="classe" value="#{reconduireController.classe}" title="Classe"/>
+                        <p:separator/><br/>
+                        <p:outputLabel value="#{lm.Matiere}:" for="matiere"/>
+                        <p:outputLabel id="matiere" value="#{reconduireController.matiere}" title="Matiere"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <p:dataTable value="#{reconduireController.noteseq2Liste}"
+                                     selectionMode="single"
+                                     selection="#{reconduireController.noteseq2}"
+                                     rowKey="#{item.notesdeselevesseq2PK}" 
+                                     sortBy="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}" 
+                                     id="table" 
+                                     widgetVar="TableNoteseq2"
+                                     rowIndexVar="rowindex"
+                                     scrollable="true"
+                                     scrollHeight="300"
+                                     var="item">                      
+                            <f:facet name="header">
+                                <p:outputPanel> 
+                                    <h1><h:outputText id="prof" value="#{reconduireController.teacher()}" title="prof"/></h1>
+                                    <h1><h:outputText value="#{lm.Releve_Notes}"/></h1>
+                                    <h:outputText value="#{lm.RechercheToutChamp}" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('TableNoteseq2').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column width="15" headerText="N°">
+                                <h:outputText value="#{rowindex+1}"/>
+                            </p:column>
+                            <p:column width="30">
+                                <f:facet name="header">
+                                    <h:outputText value="Matricule"/> 
+                                </f:facet>
+                                <h:outputText value="#{item.notesdeselevesseq2PK.matriculeeleve}"/>
+                            </p:column>
+                            <p:column width="70" filterBy="#{item.listedeseleves.nom}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nom et Prénom"/>
+                                </f:facet>
+                                <h:outputText value="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"/>
+                            </p:column>
+                            <p:column width="25" filterBy="#{item.lanote}">
+                                <f:facet name="header">
+                                    <h:outputText value="Lanote"/>
+                                </f:facet>
+                                <h:outputText value="#{item.lanote}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                    <h:panelGrid id="stat_pan" width="220" columns="2">
+                        <p:outputLabel value="Taux Réussite:" for="taux"/>
+                        <p:outputLabel id="taux" value="#{reconduireController.tauxReussite2()}%" title="Taux"/>
+
+                        <p:outputLabel value="#{lm.Moyen}:" for="moyenne"/> 
+                        <p:outputLabel id="moyenne" value="#{reconduireController.moyenne2()}/20" title="Moyenne"/>
+
+                        <p:outputLabel value="Grande Note:" for="moyenneg"/>
+                        <p:outputLabel id="moyenneg" value="#{reconduireController.pludGrandeNote2()}/20" style="color: green" title="Grande Moyenne"/>
+
+                        <p:outputLabel value="Petite Note:" for="moyennep"/>
+                        <p:outputLabel id="moyennep" value="#{reconduireController.pludPetiteNote2()}/20" style="color: red" title="Petite Moyenne"/>
+
+                        <p:outputLabel value="Présents:" for="compose"/>
+                        <p:outputLabel id="compose" value="#{reconduireController.composer2()}" style="color: green" title="Present"/>
+
+                        <p:outputLabel value="Absents:" for="absent"/>
+                        <p:outputLabel id="absent" value="#{reconduireController.noncomposer2()}" style="color: red" title="Absent"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

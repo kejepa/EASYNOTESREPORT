@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form"> 
+                <p:dataTable value="#{affectMatController.affectationMatList}" 
+                             selectionMode="single" 
+                             selection="#{affectMatController.affectationMat}"
+                             rowKey="#{item.clamatcoeffgrpePK}" 
+                             id="table"
+                             scrollable="true"
+                             scrollHeight="250"
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             var="item">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <f:facet name="header">                   
+                        <h1><h:outputText value="#{lm.Affectation_Matiere_Classe}"/></h1>
+                    </f:facet>
+                    <p:column filterBy="#{item.clamatcoeffgrpePK.codeclasse}">
+                        <f:facet name="header">
+                            <h:outputText value="Codeclasse"/>
+                        </f:facet>
+                        <h:outputText value="#{item.clamatcoeffgrpePK.codeclasse}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.clamatcoeffgrpePK.codematiere}">
+                        <f:facet name="header">
+                            <h:outputText value="Codematiere"/>
+                        </f:facet>
+                        <h:outputText value="#{item.clamatcoeffgrpePK.codematiere}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Coefficient"/>
+                        </f:facet>
+                        <h:outputText value="#{item.coefficient}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Groupe"/>
+                        </f:facet>
+                        <h:outputText value="#{item.groupe}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{affectMatController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{affectMatController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{affectMatController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{affectMatController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{affectMatController.affectationMatieres()}" icon="ui-icon-refresh"/>
+                    <p:commandButton rendered="#{connexionController.typerUser}" immediate="true" value="Cloner Modèle" oncomplete="PF('widget_user_clone').show()" icon="ui-icon-check"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red; align-content: center" value="#{lm.Affectation_Matiere_Classe}"/>
+                    </f:facet> 
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.Matiere_Classe_Existe_Deja}" rendered="#{affectMatController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2">
+                            <h:panelGrid columns="2"> 
+                                <p:outputLabel value="Codeclasse:" for="codeclasse" />
+                                <p:selectOneMenu required="true" converter="classeConverter" id="codeclasse" value="#{affectMatController.affectationMat.classes}" >
+                                    <p:ajax listener="#{affectMatController.offImage()}" update="img"/>
+                                    <f:selectItem itemLabel="Click" itemValue=""/>
+                                    <f:selectItems value="#{affectMatController.listeClasses()}"/>
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="Codematiere:" for="codematiere" />
+                                <p:selectOneMenu required="true" converter="matiereConverter" id="codematiere" value="#{affectMatController.affectationMat.matieres}" >
+                                    <!-- TODO: update below reference to list of available items-->
+                                    <f:selectItem itemLabel="Click" itemValue=""/>
+                                    <f:selectItems value="#{affectMatController.listeMatieres()}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Coefficient:" for="coefficient" />
+                                <p:inputText required="true" id="coefficient" value="#{affectMatController.affectationMat.coefficient}" title="Coefficient" />
+                                <p:outputLabel value="Groupe:" for="groupe" />
+                                <p:selectOneMenu required="true" id="groupe" value="#{affectMatController.affectationMat.groupe}" title="Groupe">
+                                    <f:selectItem itemLabel="Click" itemValue=""/>
+                                    <f:selectItem itemLabel="#{lm.Premier_Groupe}" itemValue="1" />
+                                    <f:selectItem itemLabel="#{lm.Deuxieme_Groupe}" itemValue="2" />
+                                    <f:selectItem itemLabel="#{lm.Troisieme_Groupe}" itemValue="3" />
+                                </p:selectOneMenu>                            
+                            </h:panelGrid>
+                            <h:panelGrid columns="1">
+                                <p:graphicImage rendered="#{affectMatController.reussi}" value="resources/images/btnOK.png" id="img" width="50" height="50" alt="btnOK"  styleClass="content"/>
+                            </h:panelGrid> 
+                        </h:panelGrid>
+                        <f:facet name="footer"> 
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()" action="#{affectMatController.affectationMatieres()}"/>
+                                <p:commandButton rendered="#{affectMatController.champActif}" process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{affectMatController.persistAffectMat()}" update="pan_user,table"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+                <p:dialog id="dialog_user_clone" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user_clone" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red; align-content: center" value="Calquer le modèle d'une Classe"/>
+                    </f:facet> 
+                    <p:panel id="pan_user_clone" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Modèle Classe de:" for="classede" />
+                            <p:selectOneMenu required="true" id="classede" value="#{affectMatController.classe}">
+                                <f:selectItem itemLabel="click" itemValue=""/>
+                                <f:selectItems value="#{affectMatController.listeClasses_clone()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Pour la Classe de:" for="classepour" />
+                            <p:selectOneMenu required="true" id="classepour" value="#{affectMatController.classeP}" >
+                                <f:selectItem itemLabel="click" itemValue=""/>
+                                <f:selectItems value="#{affectMatController.listeClasses()}"/>
+                            </p:selectOneMenu>                 
+                        </h:panelGrid> 
+                        <f:facet name="footer"> 
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user_clone').hide()" action="#{affectMatController.affectationMatieres()}"/>
+                                <p:commandButton rendered="#{affectMatController.champActif}" process="pan_user_clone" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{affectMatController.cloneclasse() }" update="table"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

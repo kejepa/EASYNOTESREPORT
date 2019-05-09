@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="Conseil de Classe Annuel"/></h1>
+                <p:dataTable value="#{conseilController.conseilannList}"
+                             selectionMode="single"
+                             selection="#{conseilController.conseilann}"
+                             rowKey="#{item.matriculeeleve}"
+                             id="table"
+                             rowIndexVar="rowindex"
+                             editMode="cell"
+                             editable="true"
+                             scrollable="true"
+                             sortBy="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"
+                             scrollHeight="250"
+                             widgetVar="tabconseil"
+                             var="item">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column headerText="N°" width="25">
+                        <h:outputText value="#{rowindex+1}"/>
+                    </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="N°Mle"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matriculeeleve}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.listedeseleves.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{lm.Nom}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.nom} #{item.listedeseleves.prenom}"/>
+                    </p:column>
+                    <p:column width="25">
+                        <f:facet name="header">
+                            <h:outputText value="G."/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.sexe}"/>
+                    </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="DATE"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.datenaiss}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+1"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="M.T1"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.trim1moyennesrangsdeseleves.moyenne}"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="M.T2"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.trim2moyennesrangsdeseleves.moyenne}"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="M.T3"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.trim3moyennesrangsdeseleves.moyenne}"/>
+                    </p:column>
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="M.An"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.annmoyennesrangsdeseleves.moyenne}"/>
+                    </p:column>
+                    <p:column width="25">
+                        <f:facet name="header">
+                            <h:outputText value="AN"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.disciplinesdeselevesann.absn}"/>
+                    </p:column>
+                    <p:column width="25">
+                        <f:facet name="header">
+                            <h:outputText value="CO"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.disciplinesdeselevesann.consigne}"/>
+                    </p:column>
+                    <p:column width="25">
+                        <f:facet name="header">
+                            <h:outputText value="EX"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.disciplinesdeselevesann.exclusion}"/>
+                    </p:column>
+                    <p:column width="25">
+                        <f:facet name="header">
+                            <h:outputText value="Red"/>
+                        </f:facet>
+                        <h:outputText value="#{item.listedeseleves.redoublant}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Decision"/>
+                        </f:facet>
+                        <h:outputText value="#{item.decision}"/>
+                    </p:column>
+                </p:dataTable>
+
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="1">
+                    <p:commandButton widgetVar="modifier" immediate="true" value="Editer" actionListener="#{conseilController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>                
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red" value="Conseil annuel de l'élève:"/>
+                    </f:facet> 
+                    <p:panel id="pan_user" style="text-align: justify; font-size: large">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.ExisteDeja}" rendered="#{conseilController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="N°Mle:" for="matriculeeleve" />
+                            <h:inputText disabled="true" id="matriculeeleve" value="#{conseilController.conseilann.matriculeeleve}" title="Matriculeeleve" required="true" requiredMessage="The Matriculeeleve field is required."/>
+                            <h:outputLabel value="Noms Prénom:" for="nom" />
+                            <h:outputText id="nom" value="#{conseilController.conseilann.listedeseleves.nom} #{conseilController.conseilann.listedeseleves.prenom}" title="nom" />
+                            <h:outputLabel value="Décision du conseil:" for="decision" />
+                            <p:selectOneMenu id="decision" value="#{conseilController.conseilann.decision}" title="Decision" editable="true" label="dgh">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItem itemLabel="Travail Satisfaisant" itemValue="Travail Satisfaisant, doi Persévérer" />
+                                <f:selectItem itemLabel="Travail en Progrès" itemValue="Travail en Progrès" />
+                                <f:selectItem  itemLabel="Travail en Baisse" itemValue="Travail en Baisse" />
+                                <f:selectItem itemLabel="Peut Faire Mieux" itemValue="Peut Faire Mieux" />
+                                <f:selectItem itemLabel="Redoubler D'efforts" itemValue="Redoubler D'efforts" />
+                                <f:selectItem itemLabel="Attention à la Conduite,Risque d'Exclusion" itemValue="Attention à la Conduite,Risque d'Exclusion" />
+                                <f:selectItem itemLabel="Exclu(e) pour Travail" itemValue="Exclu(e) pour Travail" />
+                                <f:selectItem itemLabel="Exclu(e) pour Discipline" itemValue="Exclu(e) pour Discipline" />
+                                <f:selectItem itemLabel="Admis" itemValue="Admis" />
+                                <f:selectItem itemLabel="Redouble la classe" itemValue="Redouble la classe" />
+                                <f:selectItem itemLabel="Redouble si échec" itemValue="Redouble si échec" />
+                            </p:selectOneMenu> 
+                            <h:outputLabel value="Sexe:" for="sexe" />
+                            <h:outputText id="sexe" value="#{conseilController.conseilann.listedeseleves.sexe}" title="sexe"/>
+                            <h:outputLabel value="Date de Naissance:" for="date" />
+                            <p:outputLabel id="date" value="#{conseilController.conseilann.listedeseleves.datenaiss}" title="date">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT+1"/>
+                            </p:outputLabel>
+                            <h:outputLabel value="Moyenne Trim1:" for="ms1"/>
+                            <h:outputText id="ms1" value="#{conseilController.conseilann.listedeseleves.trim1moyennesrangsdeseleves.moyenne}" title="ms1"/>
+                            <h:outputLabel value="Moyenne Trim2:" for="ms2" />
+                            <h:outputText id="ms2" value="#{conseilController.conseilann.listedeseleves.trim2moyennesrangsdeseleves.moyenne}" title="ms2"/>
+                            <h:outputLabel value="Moyenne Trim3:" for="trim1" />
+                            <h:outputText id="trim1" value="#{conseilController.conseilann.listedeseleves.trim3moyennesrangsdeseleves.moyenne}" title="trim1"/>
+                            <h:outputLabel value="Moyenne Annuelle:" for="anuel" />
+                            <h:outputText id="anuel" value="#{conseilController.conseilann.listedeseleves.annmoyennesrangsdeseleves.moyenne}" title="anuel"/>
+                            <h:outputLabel value="Abs Non Justifiés:" for="an" />
+                            <h:outputText id="an" value="#{conseilController.conseilann.listedeseleves.disciplinesdeselevesann.absn}" title="an"/>
+                            <h:outputLabel value="H.Consigne:" for="co" />
+                            <h:outputText id="co" value="#{conseilController.conseilann.listedeseleves.disciplinesdeselevesann.consigne}" title="co"/>
+                            <h:outputLabel value="Jrs.Exclusion:" for="ex" />
+                            <h:outputText id="ex" value="#{conseilController.conseilann.listedeseleves.disciplinesdeselevesann.exclusion}" title="ex"/>
+                            <h:outputLabel value="Redoublant?:" for="red" />
+                            <h:outputText id="red" value="#{conseilController.conseilann.listedeseleves.redoublant}" title="red"/>
+                        </p:panelGrid>  
+                        <f:facet name="footer">
+                            <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()"/> 
+                                <p:commandButton process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{conseilController.persistConseilann()}" update="pan_user"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:panel>
+                </p:dialog> 
+
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

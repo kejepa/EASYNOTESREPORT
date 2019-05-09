@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <center>
+                <h:panelGrid columns="4" style=" align-self: center; margin-bottom:10px" cellpadding="2" columnClasses="label, value">  
+                    <f:facet name="header">
+                        <p:separator/>
+                        <h:outputText style="font-size: 11pt; color: green; align-content: center" value="IMPRESSION DES BULLETINS"/>
+                        <p:separator/>
+                    </f:facet>
+                    <h:panelGrid bgcolor="black" columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff; align-content: center" value="SEQUENCES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="basic" value="#{bulletinController.seq}" filter="true" filterMatchMode="contains">
+                            <p:ajax update="pan_user"/>
+                            <f:selectItem itemLabel="SEQ 1" itemValue="SEQ1" />
+                            <f:selectItem itemLabel="SEQ 2" itemValue="SEQ2" />
+                            <f:selectItem itemLabel="SEQ 3" itemValue="SEQ3" />
+                            <f:selectItem itemLabel="SEQ 4" itemValue="SEQ4" />
+                            <f:selectItem itemLabel="SEQ 5" itemValue="SEQ5" />
+                            <f:selectItem itemLabel="SEQ 6" itemValue="SEQ6" />
+                            <f:selectItem itemLabel="TRIM 1" itemValue="TRIM1" />
+                            <f:selectItem itemLabel="TRIM 2" itemValue="TRIM2" />
+                            <f:selectItem itemLabel="TRIM 3" itemValue="TRIM3" />
+                            <f:selectItem itemLabel="ANNUEL" itemValue="ANN" />
+                        </p:selectOneListbox>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" bgcolor="black">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: #ffffff;; align-content: center" value="CLASSES"/>
+                        </f:facet>
+                        <p:selectOneListbox id="classes" value="#{bulletinController.classe}" converter="classeAffectEnseigConverter" filter="true" filterMatchMode="contains">
+                            <p:ajax listener="#{bulletinController.listeEleveParClasse()}" update="panTypeImpression,eleve,pan_user"/>
+                            <f:selectItems value="#{affectationEnseigClassController.listeClasses()}"/>
+                        </p:selectOneListbox> 
+                    </h:panelGrid>
+                    <p:panelGrid id="panTypeImpression" columns="1">
+                        <f:facet name="header">
+                            <h:outputText style="font-size: 11pt; color: red; align-content: center" value="TYPE IMPRESSION"/>
+                        </f:facet>
+                        <p:outputPanel id="customPanel" style="margin-bottom:10px">
+                            <p:selectOneRadio id="customRadio" value="#{bulletinController.typeImpression}" layout="custom">
+                                <f:selectItem itemLabel="Tous Les Elèves" itemValue="Tous Les Elèves" />
+                                <f:selectItem itemLabel="Un Elève" itemValue="Un Elève" />
+                                <f:selectItem itemLabel="En Série" itemValue="En Série" />
+                                <p:ajax listener="#{bulletinController.updateAjax()}"  update="eleve,labeleve,serie,labpan,customPanel,panTypeImpression,pan_user"/>
+                            </p:selectOneRadio>
+
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:radioButton id="opt1" for="customRadio" itemIndex="0"/>
+                                <h:outputLabel for="opt1" value="Tous Les Elèves" />
+
+                                <p:radioButton id="opt2" for="customRadio" itemIndex="1"/> 
+                                <h:outputLabel id="labopt2" for="opt2" value="Un Elève" />
+
+                                <h:outputLabel id="labeleve" rendered="#{bulletinController.labeleve}" for="eleve"/>
+                                <p:selectOneMenu id="eleve" rendered="#{bulletinController.champEleve}" value="#{bulletinController.nomeleve}">
+                                    <f:selectItem itemLabel="Click" itemValue="Click" />
+                                    <f:selectItems value="#{bulletinController.listeEleveParClasse()}" />
+                                    <p:ajax listener="#{bulletinController.matriculeRegex()}"/>
+                                </p:selectOneMenu>
+                                <p:radioButton id="opt3" for="customRadio" itemIndex="2" />
+                                <h:outputLabel id="labopt3" for="opt3" value="En Série" />
+
+                                <h:outputLabel id="labpan" rendered="#{bulletinController.labpanel}" for="serie"/>
+                                <h:panelGrid id="serie" rendered="#{bulletinController.serie}" columns="2">
+                                    <h:outputLabel  id="labde" value="De:" for="de"/>
+                                    <p:selectOneMenu id="de" value="#{bulletinController.nomeleve}">
+                                        <f:selectItem itemLabel="Click" itemValue="Click" />
+                                        <f:selectItems value="#{bulletinController.listeEleveParClasse()}" />
+                                        <p:ajax listener="#{bulletinController.matriculeRegex()}"/>
+                                    </p:selectOneMenu>
+
+                                    <h:outputLabel id="laba" value="A" for="a"/>                            
+                                    <p:selectOneMenu id="a" value="#{bulletinController.nomeleveA}">
+                                        <f:selectItem itemLabel="Click" itemValue="Click" />
+                                        <f:selectItems value="#{bulletinController.listeEleveParClasse()}" />
+                                        <p:ajax listener="#{bulletinController.matriculeRegex()}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </p:panelGrid> 
+                    <p:panelGrid id="pan_user" columns="2">
+                        <h:outputLabel value="Seq:" for="seq"/>
+                        <h:outputLabel id="seq" value="#{bulletinController.seq}"/>
+                        <h:outputLabel value="Classe:" for="class"/>
+                        <h:outputLabel id="class" value="#{bulletinController.classe}"/>
+                        <h:outputLabel value="Type Impression:" for="typeimp"/>
+                        <h:outputLabel id="typeimp" value="#{bulletinController.typeImpression}"/>
+                    </p:panelGrid>
+                </h:panelGrid> 
+                <h:panelGrid style="margin: auto;" columns="1">
+                    <p:commandButton value="#{lm.Imprimer}" action="#{bulletinController.faireDisparaitre_le_sms_sur_pdialog()}" oncomplete="PF('widget_user').show()" update="form,:form:dialog_user"/>
+                </h:panelGrid>
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <p:panel id="pan_user1" style="text-align: justify;">
+                        <h1><h:outputText value="Opérations sur:" style="color: green"/></h1>
+                        <h1><h:outputText  value="#{bulletinController.msg}" rendered="#{bulletinController.msgTest}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="1"> 
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Seq:"/>
+                                <h:outputLabel value="#{bulletinController.seq}"/>
+                                <h:outputLabel value="Classe:"/>
+                                <h:outputLabel value="#{bulletinController.classe}"/>
+                                <h:outputLabel value="Type Impression:"/>
+                                <h:outputLabel value="#{bulletinController.typeImpression}"/>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" action="#{bulletinController.faireDisparaitre_le_sms_sur_pdialog()}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                    <h:commandButton rendered="#{!bulletinController.msgTest}" immediate="true" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{bulletinController.impressionGeneral()}"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+            </center>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

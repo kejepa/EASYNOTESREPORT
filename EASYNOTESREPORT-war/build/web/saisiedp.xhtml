@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./accueil.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <f:view>
+            <h:form id="form">
+                <h1><h:outputText value="Liste des données pédagogiques par matière et par séquence"/></h1>
+                <p:dataTable selectionMode="single"
+                             selection="#{dPController.dp}"
+                             rowKey="#{item.donnespedagogiquesPK}" 
+                             value="#{dPController.dpList}" 
+                             var="item"
+                             id="table" 
+                             scrollable="true"
+                             scrollHeight="320"
+                             emptyMessage="#{lm.Valeur_Datatable}"
+                             widgetVar="TableStud"
+                             rowIndexVar="rowindex">
+                    <p:ajax event="rowSelect" update=":form:dialog_user"/>
+                    <p:ajax event="rowUnselect" update=":form:dialog_user"/>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="SEQ"/>
+                        </f:facet>
+                        <h:outputText value="#{item.donnespedagogiquesPK.periode}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Classes"/>
+                        </f:facet>
+                        <h:outputText value="#{item.donnespedagogiquesPK.niveaux}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Matieres"/>
+                        </f:facet>
+                        <h:outputText value="#{item.donnespedagogiquesPK.codematiere}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Lpcpt"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lpcpt}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Lfcpt"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lfcpt}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Lpcpp"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lpcpp}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Lfcpp"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lfcpp}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Hpchc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hpchc}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Hfchc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hfchc}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="NN"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nn}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="MG"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mg}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nae"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nae}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nsc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nsc}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator />
+                <h:panelGrid style="margin: auto;" columns="6">
+                    <p:commandButton widgetVar="ajouter" immediate="true" value="#{lm.Ajouter}" actionListener="#{dPController.btnClick}" update="dialog_user,table" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton widgetVar="modifier" immediate="true" value="#{lm.Modifier}" actionListener="#{dPController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-disk"/>
+                    <p:commandButton widgetVar="supprimer" immediate="true" value="#{lm.Supprimer}" actionListener="#{dPController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-trash" />
+                    <p:commandButton widgetVar="consulter" immediate="true" value="#{lm.Consulter}" actionListener="#{dPController.btnClick}" update="dialog_user" oncomplete="PF('widget_user').show()" icon="ui-icon-check"/>
+                    <p:commandButton immediate="true" value="#{lm.Rafrechir}" action="#{dPController.donneesPedagogiquesParMatiereDeLaClasse()}" icon="ui-icon-refresh"/>
+                </h:panelGrid>
+                <!--  *****************allForm****************** !-->
+
+                <p:dialog id="dialog_user" modal="true" dynamic="true" style="font-size: 10pt; font-weight: bold; font-style: italic;" widgetVar="widget_user" closable="false" resizable="false" showHeader="true">
+                    <f:facet name="header">
+                        <h:outputText style="font-size: 11pt; color: red" value="Ajout ou Modification"/>
+                    </f:facet>
+                    <p:panel id="pan_user" style="text-align: justify;">
+                        <h1><h:outputText value="#{lm.RemplirForm}" style="color: green"/></h1>
+                        <h1><h:outputText value="#{lm.Eleve_Existe_Deja}" rendered="#{utilisateurController.testMsgLogin}" style="color: red;font-size: large"/></h1>
+                        <h:panelGrid columns="2">
+                            <h:panelGrid id="pan_matiere" columns="2">
+                                <p:outputLabel value="LP Couv Prog Th:" for="lpcpt" />
+                                <p:inputText id="lpcpt" value="#{dPController.dp.lpcpt}" title="Lpcpt" />
+                                <p:outputLabel value="LF Couv Prog Th:" for="lfcpt" />
+                                <p:inputText id="lfcpt" value="#{dPController.dp.lfcpt}" title="Lfcpt" />
+                                <p:outputLabel value="LP Couv Prog Prat:" for="lpcpp" />
+                                <p:inputText id="lpcpp" value="#{dPController.dp.lpcpp}" title="Lpcpp" />
+                                <p:outputLabel value="LF Couv Prog Prat:" for="lfcpp" />
+                                <p:inputText id="lfcpp" value="#{dPController.dp.lfcpp}" title="Lfcpp" />
+                                <p:outputLabel value="HP Couv Heures:" for="hpchc" />
+                                <p:inputText required="true" id="hpchc" value="#{dPController.dp.hpchc}" title="Hpchc" />
+                                <p:outputLabel value="HF Couv Heures:" for="hfchc" />
+                                <p:inputText required="true" id="hfchc" value="#{dPController.dp.hfchc}" title="Hfchc" />                                                            
+                                <p:outputLabel value="Nbre Semaines Cours Faites" for="nsc" />
+                                <p:inputText required="true" id="nsc" value="#{dPController.dp.nsc}" title="Nsc" />
+                                <p:outputLabel value="Nbre d'élèves Absents:" for="nae" />
+                                <p:inputText id="nae" disabled="true" value="#{dPController.dp.nae}" title="Nae" />
+                                <p:outputLabel value="Nbre d'élèves dont note>10:" for="nn" />
+                                <p:inputText id="nn" disabled="true" value="#{dPController.dp.nn}" title="Nn" />
+                                <p:outputLabel value="Moy Générale/20:" for="mg" />
+                                <p:inputText id="mg" disabled="true" value="#{dPController.dp.mg}" title="Mg" /> 
+                            </h:panelGrid>
+                            <f:facet name="footer">
+                                <h:panelGrid style="width: 100%; text-align: center;" columns="2">
+                                    <p:commandButton style="font-size: 10pt; font-weight: bold; font-style: italic;" value="#{lm.Fermer}" immediate="true" oncomplete="PF('widget_user').hide()"/>
+                                    <p:commandButton process="pan_user" style="font-size: 10pt; font-weight: bold; font-style: italic; float: right;" value="#{lm.Confirmer}" action="#{dPController.persistEleves()}" update="pan_user"/>
+                                </h:panelGrid>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

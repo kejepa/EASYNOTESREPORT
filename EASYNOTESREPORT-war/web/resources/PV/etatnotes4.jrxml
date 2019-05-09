@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etatnotes4" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ea544960-8b3d-45f2-9185-71128332fb49">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="etsan" class="java.lang.String"/>
+	<parameter name="depan" class="java.lang.String"/>
+	<parameter name="regfr" class="java.lang.String"/>
+	<parameter name="depfr" class="java.lang.String"/>
+	<parameter name="bp" class="java.lang.String"/>
+	<parameter name="etsfr" class="java.lang.String"/>
+	<parameter name="regan" class="java.lang.String"/>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="tel" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="ANNEESCO" class="java.lang.String"/>
+	<parameter name="Pcodeclasse" class="java.lang.String"/>
+	<parameter name="chemin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select l.matriculeeleve,s.moyenne,n.codematiere,n.lanote
+from listedeseleves l
+inner join notesdeselevesseq4 n on n.matriculeeleve=l.matriculeeleve
+inner join seq4moyennesrangsdeseleves s on s.matriculeeleve=l.matriculeeleve
+where l.codeclasse=$P{Pcodeclasse}
+order by s.moyenne desc]]>
+	</queryString>
+	<field name="matriculeeleve" class="java.lang.String"/>
+	<field name="moyenne" class="java.math.BigDecimal"/>
+	<field name="codematiere" class="java.lang.String"/>
+	<field name="lanote" class="java.math.BigDecimal"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="158" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="50" width="213" height="12" uuid="04c51d75-e60c-470e-bea3-7f63e3c54b8f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DELEGATION DEPARTEMENTALE "+$P{depfr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="38" y="4" width="150" height="12" uuid="fdce3977-d74c-446c-bdd4-7882a9b1da0c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPUBLIQUE DU CAMEROUN  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="594" y="85" width="201" height="13" uuid="f94a8e23-8a15-420f-addf-42da0d4d33a7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ANNEE SCOLAIRE "+$P{ANNEESCO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="182" y="101" width="450" height="17" backcolor="#CCCCCC" uuid="d997633b-7155-4cba-8ac1-6d62a6c22df0"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font fontName="SansSerif" size="12" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[PROCES VERBAL DES NOTES DE CLASSE DE LA QUATRIEME SEQUENCE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="558" y="56" width="235" height="17" uuid="9c195b91-c4a5-4ace-8c63-6e7c51ed1494"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etsan}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="35" y="91" width="236" height="9" uuid="2b0f2998-7f24-46e5-abe2-b7a5e1ee021d"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: "+$P{email}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="77" width="133" height="11" uuid="d7c66ef6-0e17-42b9-aad1-4c40890e2f06"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BP: "+$P{bp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="640" y="5" width="130" height="12" uuid="5625965c-785d-4ff2-a65b-970a41938492"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPUBLIC OF CAMEROON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="632" y="27" width="156" height="12" uuid="8f365867-49ba-42a6-ade2-ce2c5132e743"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[MINISTRY OF SECONDARY EDUCATION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="39" width="213" height="12" uuid="4a772efa-136b-409c-9058-e0e3869b61d0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DELEGATION REGIONALE "+$P{regfr}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="546" y="75" width="115" height="11" uuid="3cd0077e-f07b-4041-bd9a-c4b3f7520003"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PO BOX: "+$P{bp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="145" y="83" width="154" height="12" uuid="42a50237-5466-452e-8782-d7a1e6e58591"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEL: "+$P{tel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="634" y="36" width="154" height="12" uuid="9316bec9-ce64-4966-b08b-3404b9958a5c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{regan}+" REGIONAL DELEGATION"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="673" y="15" width="94" height="12" uuid="4c8d0b9c-a19c-4dd9-92c4-8a2e45fee6c9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[  Peace-Work-Fatherland]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="17" y="59" width="194" height="17" uuid="02ac4eb0-3b9b-4918-baf7-8f09f8fcb885"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{etsfr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="44" width="242" height="12" uuid="e8e858eb-3d56-40d6-8826-94e40fb42196"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{depan}+" DIVISIONAL DELEGATION"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="28" width="201" height="12" uuid="bc2ab26b-f292-4c24-bfa8-dd6ff0745d20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[MINISTERE DES ENSEIGNEMENTS SECONDAIRES  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="16" width="74" height="12" uuid="9fee23ab-6801-47a8-be11-c059f7f5bea9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ Paix-Travail-Patrie ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="11" y="98" width="158" height="29" uuid="7f0b461e-1c6b-430d-a326-a263020ab1e6"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Classe: "+$P{Pcodeclasse}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="127" width="795" height="31" uuid="d60da78e-f3f8-46a9-aca4-7525a9b435f2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NB: Les élèves ont un delai de 3 jours à compter de la date de l'affichage de ce procès verbal pour apporter les pièces justificatives auprès de l'enseignant conserné en cas de contestation d'une note, passé ce delai, aucune requête ne sera recevable.]]></text>
+			</staticText>
+			<image>
+				<reportElement x="368" y="15" width="74" height="48" uuid="7c68a2c1-e633-4f01-8b4e-15c3b0740b4f"/>
+				<imageExpression><![CDATA[$P{chemin}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<summary>
+		<band height="52" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="673" height="52" uuid="3e3c6880-e8e2-44b6-ab34-41cb0cf487a6"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<rectangle>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="81" height="37" uuid="14cf2e2d-7d72-4aec-92d0-ca6ccb6385d0"/>
+						</rectangle>
+						<line>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="81" height="36" uuid="6394d1c7-3723-47b1-9af1-77204aa90e8c"/>
+						</line>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="81" height="17" uuid="f3368c85-aeba-4100-8a3f-20758215897c"/>
+							<textElement verticalAlignment="Bottom">
+								<font size="8" isBold="true"/>
+							</textElement>
+							<text><![CDATA[                   Matières]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="17" width="81" height="19" uuid="02646ef9-1f50-416b-8577-dc8740be03aa"/>
+							<textElement textAlignment="Left" verticalAlignment="Middle">
+								<font size="8" isBold="true"/>
+							</textElement>
+							<text><![CDATA[    Matricules]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="matriculeeleve" width="81">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{matriculeeleve}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="81" height="25" uuid="4621b474-c9da-4023-bf06-fdaf1f902f42"/>
+								<textElement verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{matriculeeleve}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="codematiere" height="37">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{codematiere}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="26" height="37" uuid="91be11d4-d5d4-4e99-8763-5419d52f8be5"/>
+								<textElement verticalAlignment="Middle" rotation="Left">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{codematiere}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="lanoteMeasure" class="java.math.BigDecimal">
+					<measureExpression><![CDATA[$F{lanote}]]></measureExpression>
+				</measure>
+				<crosstabCell width="26" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField isBlankWhenNull="true">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="26" height="25" uuid="a4f0af2b-8dd0-4404-a774-52e60e8dba83"/>
+							<textElement verticalAlignment="Middle">
+								<font size="10" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="matriculeeleve">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="d097355d-4105-444e-9b27-dfbe06d2dab2"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="codematiere">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="cd6d5cfe-34e1-4d9b-a4ce-fd07560b9234"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="matriculeeleve" columnTotalGroup="codematiere">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="fddf9d6f-77eb-4843-846d-4e31837394fa"/>
+							<textFieldExpression><![CDATA[$V{lanoteMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<crosstab>
+				<reportElement x="673" y="0" width="129" height="52" uuid="60b170a3-afc2-4700-b5f2-1b6f490387dd"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="37" uuid="fea50fb2-5432-42e1-86f0-8f66bcffa78a"/>
+							<box>
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[Matricules]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="matriculeeleve" width="70">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{matriculeeleve}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="5511ac44-dc67-48fe-9a6c-63fa4ec6a7b3"/>
+								<textElement verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{matriculeeleve}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="REPORT_CONTEXT" height="37">
+					<bucket class="net.sf.jasperreports.engine.ReportContext">
+						<bucketExpression><![CDATA[$P{REPORT_CONTEXT}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="37" uuid="cb9f0819-c032-4460-880b-caeb5df5b90e"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_CONTEXT}==null?"Moyenne":"Moyenne"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="moyenneMeasure" class="java.math.BigDecimal">
+					<measureExpression><![CDATA[$F{moyenne}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="97a23fa0-d9ed-488d-8921-ffc7326516a8"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{moyenneMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="matriculeeleve">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="9e19f487-9130-4bca-b360-0f4a13841f5c"/>
+							<textFieldExpression><![CDATA[$V{moyenneMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="REPORT_CONTEXT">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="d2bda8d7-8148-4112-a0b3-43687f3be654"/>
+							<textFieldExpression><![CDATA[$V{moyenneMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="matriculeeleve" columnTotalGroup="REPORT_CONTEXT">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="024cf3db-8166-4722-abba-7c49f4932036"/>
+							<textFieldExpression><![CDATA[$V{moyenneMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>
